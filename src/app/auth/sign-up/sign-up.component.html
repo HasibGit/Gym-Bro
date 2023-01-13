@@ -1,13 +1,21 @@
 <section class="container">
-  <form [formGroup]="signupForm" fxLayout="column" fxLayoutAlign="center center" class="mt-40">
-    <mat-form-field appearance="outline">
+  <form [formGroup]="signupForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" class="mt-40"
+    autocomplete="off">
+    <mat-form-field>
       <mat-label>Enter email</mat-label>
       <input type="email" matInput formControlName="Email">
+      <mat-error *ngIf="signupForm.controls.Email.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="signupForm.controls.Email.hasError('email')">Invalid email address</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Enter password</mat-label>
       <input type="password" matInput formControlName="Password">
+      <mat-hint>Should
+        be at least 6 characters long.</mat-hint>
+      <mat-error *ngIf="signupForm.controls.Password.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="signupForm.controls.Password.hasError('minlength')">Password is too short!</mat-error>
+      <mat-error *ngIf="signupForm.controls.Password.hasError('maxlength')">Password too long!</mat-error>
     </mat-form-field>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+    <button type="submit" mat-raised-button color="primary" (click)="signup()">Submit</button>
   </form>
 </section>

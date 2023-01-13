@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  OnInit,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,8 +23,19 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      Email: ['', Validators.required, Validators.email],
-      Password: ['', Validators.required],
+      Email: ['', [Validators.required, Validators.email]],
+      Password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(20),
+        ],
+      ],
     });
+  }
+
+  signup() {
+    console.log(this.signupForm.getRawValue());
   }
 }
