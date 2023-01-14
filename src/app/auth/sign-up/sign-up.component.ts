@@ -18,10 +18,17 @@ import {
 })
 export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
+  maxDate: Date;
+  minDate: Date;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.initSignupForm();
+    this.setBirthDateRangeLimit();
+  }
+
+  initSignupForm() {
     this.signupForm = this.fb.group({
       Email: ['', [Validators.required, Validators.email]],
       Password: [
@@ -33,6 +40,15 @@ export class SignUpComponent implements OnInit {
         ],
       ],
     });
+  }
+
+  setBirthDateRangeLimit() {
+    this.setBirthDateRangeLimit();
+    this.maxDate = new Date();
+    this.minDate = new Date();
+    const today = new Date();
+    this.maxDate.setFullYear(today.getFullYear() - 18);
+    this.minDate.setFullYear(today.getFullYear() - 80);
   }
 
   signup() {
