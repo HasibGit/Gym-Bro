@@ -39,11 +39,12 @@ export class SignUpComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
+      BirthDate: ['', Validators.required],
+      TermsAgreed: [false, Validators.requiredTrue],
     });
   }
 
   setBirthDateRangeLimit() {
-    this.setBirthDateRangeLimit();
     this.maxDate = new Date();
     this.minDate = new Date();
     const today = new Date();

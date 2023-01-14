@@ -1,1 +1,21 @@
-<p>login works!</p>
+<section class="container" fxLayout="row" fxLayoutAlign="center start" fxLayoutAlign.lt-lg="center center">
+  <form [formGroup]="loginForm" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px"
+    ngClass.gt-md="mt-80">
+    <mat-form-field>
+      <mat-label>Enter email</mat-label>
+      <input type="email" matInput formControlName="Email">
+      <mat-error *ngIf="loginForm.controls.Email.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="loginForm.controls.Email.hasError('email')">Invalid email address</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enter password</mat-label>
+      <input type="password" matInput formControlName="Password">
+      <mat-hint>Should
+        be at least 6 characters long.</mat-hint>
+      <mat-error *ngIf="loginForm.controls.Password.hasError('required')">This field is required</mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary" (click)="login()"
+      [disabled]="loginForm.invalid">Submit</button>
+  </form>
+</section>
