@@ -1,0 +1,22 @@
+mat-sidenav-container,
+mat-sidenav-content {
+  height: 100% !important;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.toolbar-navigation-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.app-title {
+  text-decoration: none;
+  color: #212121;
+  span {
+    font-size: 20px;
+  }
+}

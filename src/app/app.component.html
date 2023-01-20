@@ -1,1 +1,25 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <h3>Sidenav Content</h3>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <button mat-icon-button class="example-icon" aria-label="Toggle sidenav button" (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <a class="app-title" routerLink="/">
+          <span>Gym Bro
+          </span>
+        </a>
+      </div>
+
+      <ul class="toolbar-navigation-links" fxLayout fxLayoutAlign="end center" fxLayoutGap="5px">
+        <li><a routerLink="/signup" mat-button color="primary">Sign Up</a></li>
+        <li> <a routerLink="/login" mat-button color="primary">Login</a></li>
+        <li><a routerLink="/training" mat-button color="primary">Training</a></li>
+      </ul>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
