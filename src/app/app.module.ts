@@ -15,6 +15,8 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HeaderComponent } from './navigations/header/header.component';
+import { SidenavListComponent } from './navigations/sidenav-list/sidenav-list.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     PastTrainingComponent,
     NewTrainingComponent,
     WelcomeComponent,
+    HeaderComponent,
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,

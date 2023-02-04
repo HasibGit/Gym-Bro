@@ -1,0 +1,18 @@
+@import "../../color-variables.scss";
+
+mat-sidenav {
+  width: 250px;
+}
+
+.active-nav {
+  color: $gb_primary_color !important;
+}
+
+.sidenav-link-icon {
+  margin-right: 8px;
+}
+
+.sidenav-link-label {
+  font-size: 16px;
+  font-weight: 400;
+}

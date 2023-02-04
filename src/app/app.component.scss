@@ -1,11 +1,8 @@
 @import "./color-variables.scss";
+
 mat-sidenav-container,
 mat-sidenav-content {
   height: 100% !important;
-}
-
-mat-sidenav {
-  width: 250px;
 }
 
 .toolbar-navigation-links {
@@ -20,17 +17,4 @@ mat-sidenav {
   span {
     font-size: 20px;
   }
-}
-
-.active-nav {
-  color: $gb_primary_color !important;
-}
-
-.sidenav-link-icon {
-  margin-right: 8px;
-}
-
-.sidenav-link-label {
-  font-size: 16px;
-  font-weight: 400;
 }
