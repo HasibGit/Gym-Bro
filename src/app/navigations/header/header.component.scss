@@ -1,0 +1,15 @@
+@import "../../color-variables.scss";
+
+.toolbar-navigation-links {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.app-title {
+  text-decoration: none !important;
+  color: $text-color !important;
+  span {
+    font-size: 20px !important;
+  }
+}

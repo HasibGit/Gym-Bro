@@ -1,11 +1,7 @@
 @import "../../color-variables.scss";
 
-mat-sidenav {
-  width: 250px;
-}
-
 .active-nav {
-  color: $gb_primary_color !important;
+  color: $gb_primary_color;
 }
 
 .sidenav-link-icon {
@@ -13,6 +9,6 @@ mat-sidenav {
 }
 
 .sidenav-link-label {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
 }

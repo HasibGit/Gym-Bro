@@ -1,1 +1,18 @@
-<p>header works!</p>
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+    <button fxHide.gt-xs mat-icon-button class="example-icon" aria-label="Toggle sidenav button"
+      (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a class="app-title" routerLink="/">
+      <span>Gym Bro
+      </span>
+    </a>
+  </div>
+
+  <ul class="toolbar-navigation-links" fxLayout fxLayoutAlign="end center" fxLayoutGap="5px" fxHide.xs>
+    <li><a routerLink="/signup" mat-button color="primary">Sign Up</a></li>
+    <li> <a routerLink="/login" mat-button color="primary">Login</a></li>
+    <li><a routerLink="/training" mat-button color="primary">Training</a></li>
+  </ul>
+</mat-toolbar>
