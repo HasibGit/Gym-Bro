@@ -1,10 +1,12 @@
 <div class="container">
-  <mat-tab-group mat-stretch-tabs>
+  <mat-tab-group mat-stretch-tabs *ngIf="!ongoingTraining">
     <mat-tab label="New Exercise">
-      <app-new-training></app-new-training>
+      <app-new-training (newTrainingStarted)="onNewTrainingStart()"></app-new-training>
     </mat-tab>
     <mat-tab label="Past Exercises">
       <app-past-training></app-past-training>
     </mat-tab>
   </mat-tab-group>
+
+  <app-current-training *ngIf="ongoingTraining"></app-current-training>
 </div>

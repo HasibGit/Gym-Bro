@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { WORKOUTS } from '../constants/trainings.constant';
 
 @Component({
@@ -8,7 +8,13 @@ import { WORKOUTS } from '../constants/trainings.constant';
 })
 export class NewTrainingComponent implements OnInit {
   workouts = WORKOUTS;
+  @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  onStartTraining() {
+    this.newTrainingStarted.emit(true);
+  }
 }
