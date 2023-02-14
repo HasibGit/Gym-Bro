@@ -24,9 +24,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   stopTraining() {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.disableClose = true;
-    dialogConfig.width = '400px';
+    this.getDialogConfig(dialogConfig);
     const dialogRef = this._dialog.open(
       StopTrainingModalComponent,
       dialogConfig
@@ -37,5 +35,12 @@ export class CurrentTrainingComponent implements OnInit {
         console.log('Training stopped');
       }
     });
+  }
+
+  getDialogConfig(config: MatDialogConfig) {
+    config.autoFocus = true;
+    config.disableClose = true;
+    config.width = '400px';
+    config.data = this.progress;
   }
 }
