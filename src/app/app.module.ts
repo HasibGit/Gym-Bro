@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './navigations/header/header.component';
 import { SidenavListComponent } from './navigations/sidenav-list/sidenav-list.component';
+import { StopTrainingModalComponent } from './training/modals/stop-training-modal/stop-training-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SidenavListComponent } from './navigations/sidenav-list/sidenav-list.co
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
+    StopTrainingModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { SidenavListComponent } from './navigations/sidenav-list/sidenav-list.co
     FlexLayoutModule,
   ],
   providers: [],
+  entryComponents: [StopTrainingModalComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
