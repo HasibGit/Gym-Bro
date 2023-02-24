@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { User } from '../interfaces/user.interface';
@@ -13,7 +14,7 @@ export class AuthService {
   };
   authenticated: Subject<boolean> = new Subject();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   registerUser(authData: AuthData) {
     this.user.email = authData.email;
@@ -32,6 +33,7 @@ export class AuthService {
       userId: null,
     };
     this.authenticated.next(false);
+    this.router.navigate(['/login']);
   }
 
   getUser(): User {
