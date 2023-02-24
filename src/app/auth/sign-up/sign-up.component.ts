@@ -10,6 +10,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { SignupFormRawValue } from '../interfaces/sign-up.interface';
 import { AuthService } from '../services/auth.service';
@@ -24,7 +25,11 @@ export class SignUpComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initSignupForm();
@@ -62,5 +67,6 @@ export class SignUpComponent implements OnInit {
       password: formValue.Password,
     };
     this.authService.registerUser(userRegistryData);
+    this.router.navigate(['/login']);
   }
 }
