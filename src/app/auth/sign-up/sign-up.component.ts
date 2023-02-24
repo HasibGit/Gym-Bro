@@ -10,6 +10,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { AuthData } from '../interfaces/auth-data.interface';
+import { SignupFormRawValue } from '../interfaces/sign-up.interface';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +24,7 @@ export class SignUpComponent implements OnInit {
   maxDate: Date;
   minDate: Date;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initSignupForm();
@@ -53,6 +56,11 @@ export class SignUpComponent implements OnInit {
   }
 
   signup() {
-    console.log(this.signupForm.getRawValue());
+    const formValue: SignupFormRawValue = this.signupForm.getRawValue();
+    const userRegistryData: AuthData = {
+      email: formValue.Email,
+      password: formValue.Password,
+    };
+    this.authService.registerUser(userRegistryData);
   }
 }

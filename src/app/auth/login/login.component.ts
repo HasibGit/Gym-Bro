@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthData } from '../interfaces/auth-data.interface';
+import { LoginFormRawValue } from '../interfaces/login.interface';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initLoginForm();
@@ -22,6 +25,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.getRawValue());
+    const loginData: LoginFormRawValue = this.loginForm.getRawValue();
+    const authData: AuthData = {
+      email: loginData.Email,
+      password: loginData.Password,
+    };
+    this.authService.login(authData);
   }
 }
