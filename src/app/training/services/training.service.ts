@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Exercise } from '../interfaces/exercise.interface';
 
 @Injectable({
@@ -44,6 +45,10 @@ export class TrainingService {
     },
   ];
 
+  private pastExercises: Exercise[] = [];
+
+  public exerciseChanged: Subject<Exercise> = new Subject();
+
   private currentExercise: Exercise;
 
   constructor() {}
@@ -58,5 +63,27 @@ export class TrainingService {
 
   getCurrentExercise() {
     return this.currentExercise;
+  }
+
+  completeExercise() {
+    this.pastExercises.push({
+      ...this.currentExercise,
+      date: new Date(),
+      status: 'completed',
+    });
+    this.currentExercise = null;
+    this.exerciseChanged.next(this.currentExercise);
+  }
+
+  cancelExercise(progress: number) {
+    this.pastExercises.push({
+      ...this.currentExercise,
+      duration: (this.currentExercise.duration * progress) / 100,
+      calories: (this.currentExercise.calories * progress) / 100,
+      date: new Date(),
+      status: 'cancelled',
+    });
+    this.currentExercise = null;
+    this.exerciseChanged.next(this.currentExercise);
   }
 }
