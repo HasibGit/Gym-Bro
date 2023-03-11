@@ -1,14 +1,16 @@
 <div class="p-30" fxLayout fxLayoutAlign="center">
   <mat-card fxFlex="400px" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
     <mat-card-title>Time to start a workout!</mat-card-title>
+
     <mat-form-field>
       <mat-label>Select type of workout</mat-label>
-      <mat-select>
+      <mat-select [formControl]="selectWorkoutControl" required>
         <mat-option *ngFor="let workout of workouts" [value]="workout.id">
           {{workout.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button (click)="onStartTraining()">Start</button>
+
+    <button mat-button [disabled]="!selectWorkoutControl.value" (click)="onStartTraining()">Start</button>
   </mat-card>
 </div>

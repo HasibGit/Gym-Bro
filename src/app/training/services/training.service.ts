@@ -44,9 +44,19 @@ export class TrainingService {
     },
   ];
 
+  private currentExercise: Exercise;
+
   constructor() {}
 
   getAllExercises(): Exercise[] {
     return this.allExercises;
+  }
+
+  setCurrentExercise(exercise: Exercise) {
+    this.currentExercise = exercise;
+  }
+
+  getCurrentExercise() {
+    return this.currentExercise;
   }
 }

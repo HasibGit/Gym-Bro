@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { WORKOUTS } from '../constants/trainings.constant';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
@@ -10,6 +11,8 @@ import { TrainingService } from '../services/training.service';
 })
 export class NewTrainingComponent implements OnInit {
   workouts: Exercise[];
+  selectWorkoutControl: FormControl = new FormControl('', Validators.required);
+  chosenExercise: Exercise;
   @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private trainingService: TrainingService) {}
@@ -19,6 +22,12 @@ export class NewTrainingComponent implements OnInit {
   }
 
   onStartTraining() {
-    this.newTrainingStarted.emit(true);
+    this.chosenExercise = this.workouts.find(
+      (workout: Exercise) => workout.id === this.selectWorkoutControl.value
+    );
+    if (this.chosenExercise) {
+      this.trainingService.setCurrentExercise(this.chosenExercise);
+      this.newTrainingStarted.emit(true);
+    }
   }
 }
