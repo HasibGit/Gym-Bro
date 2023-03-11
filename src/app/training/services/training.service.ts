@@ -86,4 +86,8 @@ export class TrainingService {
     this.currentExercise = null;
     this.exerciseChanged.next(this.currentExercise);
   }
+
+  getPastExercises() {
+    return this.pastExercises;
+  }
 }
