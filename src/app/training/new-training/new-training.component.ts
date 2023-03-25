@@ -15,21 +15,27 @@ export class NewTrainingComponent implements OnInit {
   workouts: Exercise[];
   selectWorkoutControl: FormControl = new FormControl('', Validators.required);
   chosenExercise: Exercise;
+  isLoading: boolean;
   @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private trainingService: TrainingService,
     private _db: Firestore
-  ) {
-    const data = collection(_db, 'exercises');
-    this.workoutsObs$ = collectionData(data) as Observable<Exercise[]>;
-    this.workoutsObs$.pipe(take(1)).subscribe((exercises) => {
-      console.log(exercises);
-      this.workouts = exercises;
-    });
+  ) {}
+
+  ngOnInit(): void {
+    this.fetchExercises();
   }
 
-  ngOnInit(): void {}
+  private fetchExercises(): void {
+    this.isLoading = true;
+    const data = collection(this._db, 'exercises');
+    this.workoutsObs$ = collectionData(data) as Observable<Exercise[]>;
+    this.workoutsObs$.pipe(take(1)).subscribe((exercises) => {
+      this.workouts = exercises;
+      this.isLoading = false;
+    });
+  }
 
   onStartTraining() {
     this.chosenExercise = this.workouts.find(
