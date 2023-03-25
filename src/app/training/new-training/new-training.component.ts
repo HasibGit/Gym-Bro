@@ -2,11 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
-import { map, take } from 'rxjs';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/compat/firestore';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-new-training',
@@ -14,37 +10,21 @@ import {
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit {
-  exercisesCollection: AngularFirestoreCollection<any>;
   workouts: Exercise[];
   selectWorkoutControl: FormControl = new FormControl('', Validators.required);
   chosenExercise: Exercise;
   isLoading: boolean;
   @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(
-    private trainingService: TrainingService,
-    private _afs: AngularFirestore
-  ) {}
+  constructor(private trainingService: TrainingService) {}
 
   ngOnInit(): void {
-    this.fetchExercises();
-  }
-
-  private fetchExercises(): void {
     this.isLoading = true;
-    this.exercisesCollection = this._afs.collection<any>('exercises');
-    this.exercisesCollection
-      .snapshotChanges()
-      .pipe(
-        take(1),
-        map((docArray: any[]) => {
-          return docArray.map((doc) => {
-            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
-          });
-        })
-      )
-      .subscribe((result) => {
-        this.workouts = result;
+    this.trainingService
+      .fetchExercises()
+      .pipe(take(1))
+      .subscribe((res) => {
+        this.workouts = res;
         this.isLoading = false;
       });
   }

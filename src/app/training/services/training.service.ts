@@ -1,60 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable, Subject, take, map } from 'rxjs';
+import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { Exercise } from '../interfaces/exercise.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
-  private allExercises: Exercise[] = [
-    {
-      id: 'jumping_jack',
-      name: 'Jumping Jack',
-      duration: 30,
-      calories: 6,
-    },
-    {
-      id: 'crunches',
-      name: 'Crunches',
-      duration: 60,
-      calories: 20,
-    },
-    {
-      id: 'push_up',
-      name: 'Push Up',
-      duration: 30,
-      calories: 10,
-    },
-    {
-      id: 'peck_deck_fly',
-      name: 'Peck Deck Fly',
-      duration: 40,
-      calories: 5,
-    },
-    {
-      id: 'preacher_curl',
-      name: 'Preacher Curl',
-      duration: 40,
-      calories: 7,
-    },
-    {
-      id: 'tricep_kicks',
-      name: 'Tricep Kicks',
-      duration: 50,
-      calories: 4,
-    },
-  ];
-
   private pastExercises: Exercise[] = [];
 
   public exerciseChanged: Subject<Exercise> = new Subject();
 
   private currentExercise: Exercise;
 
-  constructor() {}
+  constructor(private _afs: AngularFirestore) {}
 
-  getAllExercises(): Exercise[] {
-    return this.allExercises;
+  fetchExercises(): Observable<Exercise[]> {
+    return this._afs
+      .collection<any>(COLLECTIONS.exercises)
+      .snapshotChanges()
+      .pipe(
+        take(1),
+        map((docArray: any[]) => {
+          return docArray.map((doc) => {
+            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
+          });
+        })
+      );
   }
 
   setCurrentExercise(exercise: Exercise) {
