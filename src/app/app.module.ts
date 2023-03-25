@@ -18,6 +18,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './navigations/header/header.component';
 import { SidenavListComponent } from './navigations/sidenav-list/sidenav-list.component';
 import { StopTrainingModalComponent } from './training/modals/stop-training-modal/stop-training-modal.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,9 @@ import { StopTrainingModalComponent } from './training/modals/stop-training-moda
     MaterialModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   entryComponents: [StopTrainingModalComponent],
