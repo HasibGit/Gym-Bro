@@ -30,6 +30,20 @@ export class TrainingService {
       );
   }
 
+  fetchPastExercises(): Observable<Exercise[]> {
+    return this._afs
+      .collection<any>(COLLECTIONS.past_exercises)
+      .snapshotChanges()
+      .pipe(
+        take(1),
+        map((docArray: any[]) => {
+          return docArray.map((doc) => {
+            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
+          });
+        })
+      );
+  }
+
   setCurrentExercise(exercise: Exercise) {
     this.currentExercise = exercise;
   }
@@ -65,6 +79,6 @@ export class TrainingService {
   }
 
   getPastExercises() {
-    return this.pastExercises;
+    return this.fetchPastExercises();
   }
 }

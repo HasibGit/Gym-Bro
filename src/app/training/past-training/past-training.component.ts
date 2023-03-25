@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-past-training',
@@ -19,7 +20,12 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
   constructor(private _trainingService: TrainingService) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this._trainingService.getPastExercises();
+    this._trainingService
+      .getPastExercises()
+      .pipe(take(1))
+      .subscribe((exercises: Exercise[]) => {
+        this.dataSource.data = exercises;
+      });
   }
 
   ngAfterViewInit(): void {
