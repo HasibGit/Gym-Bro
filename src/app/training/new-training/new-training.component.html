@@ -5,7 +5,7 @@
     <mat-form-field *ngIf="!isLoading">
       <mat-label>Select type of workout</mat-label>
       <mat-select [formControl]="selectWorkoutControl" required>
-        <mat-option *ngFor="let workout of workouts" [value]="workout.name">
+        <mat-option *ngFor="let workout of workouts" [value]="workout.id">
           {{workout.name}}
         </mat-option>
       </mat-select>

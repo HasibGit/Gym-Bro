@@ -2,8 +2,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { Observable, take } from 'rxjs';
+import { map, take } from 'rxjs';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-new-training',
@@ -11,7 +14,7 @@ import { Observable, take } from 'rxjs';
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit {
-  workoutsObs$: Observable<Exercise[]>;
+  exercisesCollection: AngularFirestoreCollection<any>;
   workouts: Exercise[];
   selectWorkoutControl: FormControl = new FormControl('', Validators.required);
   chosenExercise: Exercise;
@@ -20,7 +23,7 @@ export class NewTrainingComponent implements OnInit {
 
   constructor(
     private trainingService: TrainingService,
-    private _db: Firestore
+    private _afs: AngularFirestore
   ) {}
 
   ngOnInit(): void {
@@ -29,12 +32,21 @@ export class NewTrainingComponent implements OnInit {
 
   private fetchExercises(): void {
     this.isLoading = true;
-    const data = collection(this._db, 'exercises');
-    this.workoutsObs$ = collectionData(data) as Observable<Exercise[]>;
-    this.workoutsObs$.pipe(take(1)).subscribe((exercises) => {
-      this.workouts = exercises;
-      this.isLoading = false;
-    });
+    this.exercisesCollection = this._afs.collection<any>('exercises');
+    this.exercisesCollection
+      .snapshotChanges()
+      .pipe(
+        take(1),
+        map((docArray: any[]) => {
+          return docArray.map((doc) => {
+            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
+          });
+        })
+      )
+      .subscribe((result) => {
+        this.workouts = result;
+        this.isLoading = false;
+      });
   }
 
   onStartTraining() {
