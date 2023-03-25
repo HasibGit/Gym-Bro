@@ -39,7 +39,7 @@ export class TrainingService {
   }
 
   completeExercise() {
-    this.pastExercises.push({
+    this.pushPastExerciseDataToDatabase({
       ...this.currentExercise,
       date: new Date(),
       status: 'completed',
@@ -49,7 +49,7 @@ export class TrainingService {
   }
 
   cancelExercise(progress: number) {
-    this.pastExercises.push({
+    this.pushPastExerciseDataToDatabase({
       ...this.currentExercise,
       duration: (this.currentExercise.duration * progress) / 100,
       calories: (this.currentExercise.calories * progress) / 100,
@@ -58,6 +58,10 @@ export class TrainingService {
     });
     this.currentExercise = null;
     this.exerciseChanged.next(this.currentExercise);
+  }
+
+  pushPastExerciseDataToDatabase(exercise: Exercise) {
+    this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
   }
 
   getPastExercises() {
