@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, Subject, take, map } from 'rxjs';
+import { Observable, Subject, take, map, Subscription } from 'rxjs';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { Exercise } from '../interfaces/exercise.interface';
 

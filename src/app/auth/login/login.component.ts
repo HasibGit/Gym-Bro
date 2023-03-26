@@ -36,6 +36,5 @@ export class LoginComponent implements OnInit {
       password: loginData.Password,
     };
     this.authService.login(authData);
-    this.router.navigate(['']);
   }
 }

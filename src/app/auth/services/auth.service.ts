@@ -1,46 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { User } from '../interfaces/user.interface';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private user: User = {
-    email: null,
-    userId: null,
-  };
-  authenticated: Subject<boolean> = new Subject();
+  authenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private _afa: AngularFireAuth) {}
+
+  initAuthListener() {
+    this._afa.authState.subscribe((user) => {
+      if (user) {
+        this.authenticated.next(true);
+        this.router.navigate(['']);
+      } else {
+        this.authenticated.next(false);
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 
   registerUser(authData: AuthData) {
-    this.user.email = authData.email;
-    this.user.userId = Math.round(Math.random() * 10000).toString();
+    this._afa
+      .createUserWithEmailAndPassword(authData.email, authData.password)
+      .then((result) => {})
+      .catch((error) => {});
   }
 
   login(authData: AuthData) {
-    this.user.email = authData.email;
-    this.user.userId = Math.round(Math.random() * 10000).toString();
-    this.authenticated.next(true);
+    this._afa
+      .signInWithEmailAndPassword(authData.email, authData.password)
+      .then((result) => {})
+      .catch((error) => {});
   }
 
   logout() {
-    this.user = {
-      email: null,
-      userId: null,
-    };
-    this.authenticated.next(false);
-    this.router.navigate(['/login']);
-  }
-
-  getUser(): User {
-    return { ...this.user };
-  }
-
-  isAuthenticated(): boolean {
-    return this.user.email !== null && this.user.userId !== null;
+    this._afa.signOut();
   }
 }
