@@ -10,6 +10,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { SignupFormRawValue } from '../interfaces/sign-up.interface';
@@ -28,7 +29,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private _snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +68,17 @@ export class SignUpComponent implements OnInit {
       email: formValue.Email,
       password: formValue.Password,
     };
-    this.authService.registerUser(userRegistryData);
-    this.router.navigate(['/login']);
+    this.authService
+      .registerUser(userRegistryData)
+      .then((res) => {
+        this.router.navigate(['/login']);
+      })
+      .catch((error) => {
+        this._snackbar.open(error.message, null, {
+          horizontalPosition: 'end',
+          verticalPosition: 'bottom',
+          duration: 3000,
+        });
+      });
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AuthData } from '../interfaces/auth-data.interface';
-import { User } from '../interfaces/user.interface';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
@@ -25,18 +24,20 @@ export class AuthService {
     });
   }
 
-  registerUser(authData: AuthData) {
-    this._afa
-      .createUserWithEmailAndPassword(authData.email, authData.password)
-      .then((result) => {})
-      .catch((error) => {});
+  registerUser(authData: AuthData): Promise<any> {
+    return this._afa.createUserWithEmailAndPassword(
+      authData.email,
+      authData.password
+    );
   }
 
   login(authData: AuthData) {
     this._afa
       .signInWithEmailAndPassword(authData.email, authData.password)
       .then((result) => {})
-      .catch((error) => {});
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   logout() {
