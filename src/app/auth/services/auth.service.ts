@@ -31,13 +31,11 @@ export class AuthService {
     );
   }
 
-  login(authData: AuthData) {
-    this._afa
-      .signInWithEmailAndPassword(authData.email, authData.password)
-      .then((result) => {})
-      .catch((error) => {
-        console.log(error);
-      });
+  login(authData: AuthData): Promise<any> {
+    return this._afa.signInWithEmailAndPassword(
+      authData.email,
+      authData.password
+    );
   }
 
   logout() {
