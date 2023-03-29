@@ -25,6 +25,7 @@ export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   maxDate: Date;
   minDate: Date;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +64,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signup() {
+    this.isLoading = true;
     const formValue: SignupFormRawValue = this.signupForm.getRawValue();
     const userRegistryData: AuthData = {
       email: formValue.Email,
@@ -71,6 +73,7 @@ export class SignUpComponent implements OnInit {
     this.authService
       .registerUser(userRegistryData)
       .then((res) => {
+        this.isLoading = false;
         this.router.navigate(['/login']);
       })
       .catch((error) => {
@@ -79,6 +82,7 @@ export class SignUpComponent implements OnInit {
           verticalPosition: 'bottom',
           duration: 3000,
         });
+        this.isLoading = false;
       });
   }
 }

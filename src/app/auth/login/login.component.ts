@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoading = true;
     const loginData: LoginFormRawValue = this.loginForm.getRawValue();
     const authData: AuthData = {
       email: loginData.Email,
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
     this.authService
       .login(authData)
       .then((result) => {
+        this.isLoading = false;
         this._router.navigate(['']);
       })
       .catch((error) => {
@@ -48,6 +51,7 @@ export class LoginComponent implements OnInit {
           verticalPosition: 'bottom',
           duration: 3000,
         });
+        this.isLoading = false;
       });
   }
 }
