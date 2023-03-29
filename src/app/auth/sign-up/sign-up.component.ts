@@ -1,17 +1,7 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HelperService } from '../../shared/services/helper.service';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { SignupFormRawValue } from '../interfaces/sign-up.interface';
 import { AuthService } from '../services/auth.service';
@@ -31,7 +21,7 @@ export class SignUpComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private _snackbar: MatSnackBar
+    private _helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -77,11 +67,7 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['/login']);
       })
       .catch((error) => {
-        this._snackbar.open(error.message, null, {
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom',
-          duration: 3000,
-        });
+        this._helperService.openSnackBar(error.message);
         this.isLoading = false;
       });
   }

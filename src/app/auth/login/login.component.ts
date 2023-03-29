@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { HelperService } from '../../shared/services/helper.service';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { LoginFormRawValue } from '../interfaces/login.interface';
 import { AuthService } from '../services/auth.service';
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private _router: Router,
-    private _snackbar: MatSnackBar
+    private _helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -46,11 +46,7 @@ export class LoginComponent implements OnInit {
         this._router.navigate(['']);
       })
       .catch((error) => {
-        this._snackbar.open(error.message, null, {
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom',
-          duration: 3000,
-        });
+        this._helperService.openSnackBar(error.message);
         this.isLoading = false;
       });
   }
