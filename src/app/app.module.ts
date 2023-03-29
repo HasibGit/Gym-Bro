@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AuthModule } from './auth/auth.module';
 import { TrainingModule } from './training/training.module';
 import { SharedModule } from './shared/shared.module';
+import { AuthRoutingModule } from './auth/auth-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     AppRoutingModule,
+    AuthRoutingModule,
     SharedModule,
     AuthModule,
     TrainingModule,
