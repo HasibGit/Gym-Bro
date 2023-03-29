@@ -4,9 +4,10 @@ import { LoginComponent } from './login/login.component';
 import { AuthComponent } from './auth.component';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SharedModule } from '../shared/shared.module';
+import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   declarations: [AuthComponent, SignUpComponent, LoginComponent],
-  imports: [SharedModule, AngularFireAuthModule],
+  imports: [SharedModule, AngularFireAuthModule, AuthRoutingModule],
 })
 export class AuthModule {}

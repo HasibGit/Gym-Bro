@@ -9,10 +9,10 @@ import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AuthModule } from './auth/auth.module';
-import { TrainingModule } from './training/training.module';
 import { SharedModule } from './shared/shared.module';
-import { AuthRoutingModule } from './auth/auth-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,11 +22,11 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
     SidenavListComponent,
   ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
-    AuthRoutingModule,
     SharedModule,
-    AuthModule,
-    TrainingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),

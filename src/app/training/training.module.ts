@@ -5,6 +5,7 @@ import { PastTrainingComponent } from './past-training/past-training.component';
 import { StopTrainingModalComponent } from './modals/stop-training-modal/stop-training-modal.component';
 import { TrainingComponent } from './training.component';
 import { SharedModule } from '../shared/shared.module';
+import { TrainingRoutingModule } from './training-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,7 @@ import { SharedModule } from '../shared/shared.module';
     PastTrainingComponent,
     StopTrainingModalComponent,
   ],
-  imports: [SharedModule],
+  imports: [SharedModule, TrainingRoutingModule],
   entryComponents: [StopTrainingModalComponent],
 })
 export class TrainingModule {}
