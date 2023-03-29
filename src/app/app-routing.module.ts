@@ -7,7 +7,7 @@ import { TrainingComponent } from './training/training.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
-  { path: '', component: WelcomeComponent },
+  { path: '', component: WelcomeComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
   { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
