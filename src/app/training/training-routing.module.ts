@@ -8,7 +8,6 @@ const routes: Route[] = [
   {
     path: '',
     component: TrainingComponent,
-    canActivate: [AuthGuard],
   },
 ];
 
