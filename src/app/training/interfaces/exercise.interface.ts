@@ -6,3 +6,13 @@ export interface Exercise {
   date?: Date;
   status?: 'completed' | 'cancelled' | null;
 }
+
+export interface Exercise2 {
+  Force: string;
+  Name: string;
+  'Primary Muscles': string[];
+  SecondaryMuscles: string[];
+  Type: string;
+  'Workout Type': string[];
+  'Youtube link': string;
+}

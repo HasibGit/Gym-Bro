@@ -11,9 +11,9 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Select type of workout</mat-label>
-        <mat-select formControlName="workout" required>
-          <mat-option *ngFor="let workout of workouts" [value]="workout.id">
-            {{workout.name}}
+        <mat-select formControlName="workout" required [disabled]="isWorkoutDisabled()">
+          <mat-option *ngFor="let workout of workouts" [value]="workout.Name">
+            {{workout.Name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
