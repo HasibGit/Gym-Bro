@@ -2,6 +2,6 @@
   <mat-progress-spinner class="mb-5" color="primary" mode="determinate" [value]="progress">
   </mat-progress-spinner>
   <h1>{{progress}}%</h1>
-  <p>Keep going. You are almost there!</p>
+  <p>Sets completed: {{numberOfSetsCompleted}}/{{currentExercise.Sets}}</p>
   <button mat-raised-button color="accent" (click)="stopTraining()">Stop</button>
 </div>

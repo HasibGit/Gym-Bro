@@ -13,6 +13,9 @@ export class CurrentTrainingComponent implements OnInit {
   progress = 0;
   currentExercise: Exercise;
   userId: string;
+  numberOfSetsCompleted = 0;
+  interval: number;
+  intervalOngoing: boolean;
 
   timer: NodeJS.Timer;
 
@@ -23,6 +26,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentExercise = this._trainingService.getCurrentExercise();
+    this.interval = this.currentExercise.Break;
     this.startOrResumeTraining();
   }
 
@@ -31,9 +35,13 @@ export class CurrentTrainingComponent implements OnInit {
     this.timer = setInterval(() => {
       this.progress += 1;
       if (this.progress === 100) {
-        this._trainingService.completeExercise();
-        this.progress = 0;
-        clearInterval(this.timer);
+        this.numberOfSetsCompleted++;
+        if (this.numberOfSetsCompleted === this.currentExercise.Sets) {
+          this._trainingService.completeExercise();
+          clearInterval(this.timer);
+        } else {
+          this.progress = 0;
+        }
       }
     }, stepSize);
   }
@@ -53,7 +61,10 @@ export class CurrentTrainingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       if (res?.exitTraining) {
-        this._trainingService.cancelExercise(this.progress);
+        this._trainingService.cancelExercise(
+          this.progress,
+          this.numberOfSetsCompleted
+        );
       } else {
         this.startOrResumeTraining();
       }

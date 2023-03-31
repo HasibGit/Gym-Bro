@@ -94,7 +94,7 @@ export class TrainingService {
       });
   }
 
-  cancelExercise(progress: number) {
+  cancelExercise(progress: number, numberOfSetsCompleted: number) {
     this._helperService
       .getLoggedInUserId()
       .pipe(take(1))
@@ -102,6 +102,7 @@ export class TrainingService {
         if (userId) {
           this.pushPastExerciseDataToDatabase({
             ...this.currentExercise,
+            Sets: numberOfSetsCompleted,
             userId: userId,
             date: new Date(),
             status: 'cancelled',
