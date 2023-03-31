@@ -1,7 +1,10 @@
 <div class="p-30" fxLayout="column" fxLayoutAlign="start center">
-  <mat-progress-spinner class="mb-5" color="primary" mode="determinate" [value]="progress">
+  <mat-progress-spinner class="mb-5" color="primary" mode="determinate" [value]="progress" *ngIf="!intervalOngoing">
+  </mat-progress-spinner>
+  <mat-progress-spinner class="mb-5" color="warn" mode="determinate" [value]="intervalProgress" *ngIf="intervalOngoing">
   </mat-progress-spinner>
   <h1>{{progress}}%</h1>
-  <p>Sets completed: {{numberOfSetsCompleted}}/{{currentExercise.Sets}}</p>
+  <p *ngIf="!intervalOngoing">Sets completed: {{numberOfSetsCompleted}}/{{currentExercise.Sets}}</p>
+  <p *ngIf="intervalOngoing">Take rest</p>
   <button mat-raised-button color="accent" (click)="stopTraining()">Stop</button>
 </div>

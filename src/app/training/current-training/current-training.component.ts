@@ -15,9 +15,11 @@ export class CurrentTrainingComponent implements OnInit {
   userId: string;
   numberOfSetsCompleted = 0;
   interval: number;
-  intervalOngoing: boolean;
+  intervalOngoing = false;
 
   timer: NodeJS.Timer;
+  intervalTimer: NodeJS.Timer;
+  intervalProgress = 0;
 
   constructor(
     public _dialog: MatDialog,
@@ -37,13 +39,29 @@ export class CurrentTrainingComponent implements OnInit {
       if (this.progress === 100) {
         this.numberOfSetsCompleted++;
         if (this.numberOfSetsCompleted === this.currentExercise.Sets) {
-          this._trainingService.completeExercise();
           clearInterval(this.timer);
+          this._trainingService.completeExercise();
         } else {
+          this.initiateBreakTime();
           this.progress = 0;
+          clearInterval(this.timer); // clear outer interval while inner interval is running
         }
       }
     }, stepSize);
+  }
+
+  initiateBreakTime() {
+    const intervalStepSize = (this.currentExercise.Break * 1000) / 100;
+    this.intervalTimer = setInterval(() => {
+      this.intervalOngoing = true;
+      this.intervalProgress++;
+      if (this.intervalProgress === 100) {
+        this.intervalProgress = 0;
+        this.intervalOngoing = false;
+        clearInterval(this.intervalTimer);
+        this.startOrResumeTraining(); // start the next set
+      }
+    }, intervalStepSize);
   }
 
   pauseTraining() {
