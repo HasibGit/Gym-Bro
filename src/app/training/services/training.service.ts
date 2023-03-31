@@ -54,9 +54,11 @@ export class TrainingService {
       );
   }
 
-  fetchPastExercises(): Observable<any[]> {
+  fetchPastExercises(userId: string): Observable<any[]> {
     return this._afs
-      .collection<any>(COLLECTIONS.past_exercises)
+      .collection<any>(COLLECTIONS.past_exercises, (ref) =>
+        ref.where('userId', '==', userId)
+      )
       .valueChanges()
       .pipe(take(1));
   }
@@ -119,7 +121,7 @@ export class TrainingService {
     return this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
   }
 
-  getPastExercises() {
-    return this.fetchPastExercises();
+  getPastExercises(userId: string) {
+    return this.fetchPastExercises(userId);
   }
 }

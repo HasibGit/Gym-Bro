@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
 import { take } from 'rxjs';
+import { HelperService } from '../../shared/services/helper.service';
 
 @Component({
   selector: 'app-past-training',
@@ -24,16 +25,22 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
   ];
   dataSource = new MatTableDataSource<Exercise>();
 
-  constructor(private _trainingService: TrainingService) {}
+  constructor(
+    private _trainingService: TrainingService,
+    private _helperService: HelperService
+  ) {}
 
   ngOnInit(): void {
-    this._trainingService
-      .getPastExercises()
+    this._helperService
+      .getLoggedInUserId()
       .pipe(take(1))
-      .subscribe((exercises: Exercise[]) => {
-        console.log('data');
-        console.log(exercises);
-        this.dataSource.data = exercises;
+      .subscribe((userId) => {
+        this._trainingService
+          .getPastExercises(userId)
+          .pipe(take(1))
+          .subscribe((exercises: Exercise[]) => {
+            this.dataSource.data = exercises;
+          });
       });
   }
 
