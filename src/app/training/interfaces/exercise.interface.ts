@@ -15,4 +15,9 @@ export interface Exercise2 {
   Type: string;
   'Workout Type': string[];
   'Youtube link': string;
+  Reps?: number;
+  Break?: number;
+  RepDuration?: number;
+  date?: Date;
+  status?: 'completed' | 'cancelled' | null;
 }
