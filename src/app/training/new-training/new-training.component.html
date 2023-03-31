@@ -8,15 +8,35 @@
         <mat-select formControlName="muscleGroup">
           <mat-option *ngFor="let muscleGroup of muscleGroups" [value]="muscleGroup">{{muscleGroup}}</mat-option>
         </mat-select>
+        <mat-error>This field is required</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Select type of workout</mat-label>
+        <mat-label>Select workout</mat-label>
         <mat-select formControlName="workout" required [disabled]="isWorkoutDisabled()">
           <mat-option *ngFor="let workout of workouts" [value]="workout.Name">
             {{workout.Name}}
           </mat-option>
         </mat-select>
+        <mat-error>This field is required</mat-error>
       </mat-form-field>
+      <div *ngIf="workoutSelected()" fxLayout="column">
+        <mat-form-field>
+          <mat-label>Number of reps</mat-label>
+          <input type="number" matInput formControlName="reps">
+          <mat-error>This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Duration of rep</mat-label>
+          <input type="number" matInput formControlName="repDuration">
+          <mat-error>This field is required</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Interval time</mat-label>
+          <input type="number" matInput formControlName="break">
+          <mat-error>This field is required</mat-error>
+        </mat-form-field>
+      </div>
+
     </form>
 
     <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>

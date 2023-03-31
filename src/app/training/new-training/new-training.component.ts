@@ -14,6 +14,7 @@ import {
 import { Exercise, Exercise2 } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
 import { Subject, take, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-training',
@@ -31,7 +32,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   constructor(
     private trainingService: TrainingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public _dialog: MatDialog
   ) {
     this.unsubscribeAll = new Subject();
   }
@@ -73,7 +75,14 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.startTrainingForm = this.fb.group({
       muscleGroup: ['', Validators.required],
       workout: ['', Validators.required],
+      reps: ['', Validators.required],
+      repDuration: ['', Validators.required],
+      break: ['', Validators.required],
     });
+  }
+
+  workoutSelected(): boolean {
+    return this.startTrainingForm.get('workout').value;
   }
 
   isWorkoutDisabled(): boolean {
@@ -81,6 +90,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   onStartTraining() {
+    console.log(this.startTrainingForm.getRawValue());
     // this.chosenExercise = this.workouts.find(
     //   (workout: Exercise) =>
     //     workout.id === this.startTrainingForm.get('workout').value
