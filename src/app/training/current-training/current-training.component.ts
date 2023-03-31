@@ -26,7 +26,7 @@ export class CurrentTrainingComponent implements OnInit {
   }
 
   startOrResumeTraining() {
-    const stepSize = (this.currentExercise.duration * 1000) / 100;
+    const stepSize = (this.currentExercise.SetDuration * 1000) / 100;
     this.timer = setInterval(() => {
       this.progress += 1;
       if (this.progress === 100) {

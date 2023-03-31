@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, Subject, take, map, Subscription } from 'rxjs';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { HTTP_COMMON_HEADER } from '../../shared/constants/http-options.const';
-import { Exercise, Exercise2 } from '../interfaces/exercise.interface';
+import { Exercise } from '../interfaces/exercise.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,8 @@ export class TrainingService {
     );
   }
 
-  getExercisesBasedOnMuscleGroup(muscleGroup: string): Observable<Exercise2[]> {
-    return this._http.get<Exercise2[]>(
+  getExercisesBasedOnMuscleGroup(muscleGroup: string): Observable<Exercise[]> {
+    return this._http.get<Exercise[]>(
       'https://exerciseapi3.p.rapidapi.com/search/',
       {
         ...HTTP_COMMON_HEADER,
@@ -49,7 +49,7 @@ export class TrainingService {
       );
   }
 
-  fetchPastExercises(): Observable<Exercise[]> {
+  fetchPastExercises(): Observable<any[]> {
     return this._afs
       .collection<any>(COLLECTIONS.past_exercises)
       .snapshotChanges()
@@ -84,8 +84,6 @@ export class TrainingService {
   cancelExercise(progress: number) {
     this.pushPastExerciseDataToDatabase({
       ...this.currentExercise,
-      duration: (this.currentExercise.duration * progress) / 100,
-      calories: (this.currentExercise.calories * progress) / 100,
       date: new Date(),
       status: 'cancelled',
     });

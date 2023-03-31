@@ -8,17 +8,21 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.date.toDate() | date: 'mediumDate'}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="Name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row.Name}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="calories">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Calories</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.calories | number}}</mat-cell>
+    <ng-container matColumnDef="Primary Muscles">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Muscles</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row['Primary Muscles']}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="duration">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Duration</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.duration | number}}</mat-cell>
+    <ng-container matColumnDef="Sets">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Sets</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.Sets | number}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="SetDuration">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Set Duration</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.SetDuration | number}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>

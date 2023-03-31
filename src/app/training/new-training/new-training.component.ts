@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Exercise, Exercise2 } from '../interfaces/exercise.interface';
+import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
 import { Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,10 +22,10 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./new-training.component.scss'],
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
-  workouts: Exercise2[];
+  workouts: Exercise[];
   muscleGroups: string[];
   startTrainingForm: FormGroup;
-  chosenExercise: Exercise2;
+  chosenExercise: Exercise;
   isLoading: boolean;
   unsubscribeAll: Subject<void>;
   @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
@@ -65,7 +65,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.trainingService
           .getExercisesBasedOnMuscleGroup(muscleGroup)
           .pipe(take(1))
-          .subscribe((exercises: Exercise2[]) => {
+          .subscribe((exercises: Exercise[]) => {
             this.workouts = exercises;
           });
       });
@@ -75,8 +75,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.startTrainingForm = this.fb.group({
       muscleGroup: ['', Validators.required],
       workout: ['', Validators.required],
-      reps: ['', Validators.required],
-      repDuration: ['', Validators.required],
+      sets: ['', Validators.required],
+      setDuration: ['', Validators.required],
       break: ['', Validators.required],
     });
   }
@@ -90,7 +90,28 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   }
 
   onStartTraining() {
-    console.log(this.startTrainingForm.getRawValue());
+    const formData: {
+      break: number;
+      muscleGroup: string;
+      setDuration: number;
+      sets: number;
+      workout: string;
+    } = this.startTrainingForm.getRawValue();
+
+    this.chosenExercise = this.workouts.find(
+      (workout: Exercise) =>
+        workout.Name === this.startTrainingForm.get('workout').value
+    );
+
+    this.chosenExercise.Sets = formData.sets;
+    this.chosenExercise.SetDuration = formData.setDuration;
+    this.chosenExercise.Break = formData.break;
+
+    if (this.chosenExercise) {
+      this.trainingService.setCurrentExercise(this.chosenExercise);
+      this.newTrainingStarted.emit(true);
+    }
+
     // this.chosenExercise = this.workouts.find(
     //   (workout: Exercise) =>
     //     workout.id === this.startTrainingForm.get('workout').value

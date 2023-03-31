@@ -14,7 +14,14 @@ import { take } from 'rxjs';
 export class PastTrainingComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns = ['date', 'name', 'duration', 'calories', 'status'];
+  displayedColumns = [
+    'date',
+    'Name',
+    'Primary Muscles',
+    'Sets',
+    'SetDuration',
+    'status',
+  ];
   dataSource = new MatTableDataSource<Exercise>();
 
   constructor(private _trainingService: TrainingService) {}
