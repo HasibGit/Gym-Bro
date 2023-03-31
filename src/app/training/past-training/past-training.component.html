@@ -14,7 +14,8 @@
     </ng-container>
     <ng-container matColumnDef="Primary Muscles">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Primary Muscles</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row['Primary Muscles']}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row['Primary Muscles'].join(", ")}}
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="Sets">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Sets</mat-header-cell>

@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, Subject, take, map, Subscription } from 'rxjs';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { HTTP_COMMON_HEADER } from '../../shared/constants/http-options.const';
+import { HelperService } from '../../shared/services/helper.service';
 import { Exercise } from '../interfaces/exercise.interface';
 
 @Injectable({
@@ -16,7 +17,11 @@ export class TrainingService {
 
   private currentExercise: Exercise;
 
-  constructor(private _afs: AngularFirestore, private _http: HttpClient) {}
+  constructor(
+    private _afs: AngularFirestore,
+    private _http: HttpClient,
+    private _helperService: HelperService
+  ) {}
 
   getMuscleGroups(): Observable<string[]> {
     return this._http.get<string[]>(
@@ -76,9 +81,14 @@ export class TrainingService {
       ...this.currentExercise,
       date: new Date(),
       status: 'completed',
-    });
-    this.currentExercise = null;
-    this.exerciseChanged.next(this.currentExercise);
+    })
+      .then((docRef) => {
+        this.currentExercise = null;
+        this.exerciseChanged.next(this.currentExercise);
+      })
+      .catch((error) => {
+        this._helperService.openSnackBar('Sorry, something went wrong');
+      });
   }
 
   cancelExercise(progress: number) {
@@ -92,7 +102,7 @@ export class TrainingService {
   }
 
   pushPastExerciseDataToDatabase(exercise: Exercise) {
-    this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
+    return this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
   }
 
   getPastExercises() {
