@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, Subject, take, map, Subscription } from 'rxjs';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
+import { HTTP_COMMON_HEADER } from '../../shared/constants/http-options.const';
 import { Exercise } from '../interfaces/exercise.interface';
 
 @Injectable({
@@ -14,7 +16,14 @@ export class TrainingService {
 
   private currentExercise: Exercise;
 
-  constructor(private _afs: AngularFirestore) {}
+  constructor(private _afs: AngularFirestore, private _http: HttpClient) {}
+
+  getMuscleGroups(): Observable<string[]> {
+    return this._http.get<string[]>(
+      'https://exerciseapi3.p.rapidapi.com/search/muscles/',
+      HTTP_COMMON_HEADER
+    );
+  }
 
   fetchExercises(): Observable<Exercise[]> {
     return this._afs
