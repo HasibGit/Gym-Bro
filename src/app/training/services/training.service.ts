@@ -57,15 +57,8 @@ export class TrainingService {
   fetchPastExercises(): Observable<any[]> {
     return this._afs
       .collection<any>(COLLECTIONS.past_exercises)
-      .snapshotChanges()
-      .pipe(
-        take(1),
-        map((docArray: any[]) => {
-          return docArray.map((doc) => {
-            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
-          });
-        })
-      );
+      .valueChanges()
+      .pipe(take(1));
   }
 
   setCurrentExercise(exercise: Exercise) {
@@ -96,9 +89,14 @@ export class TrainingService {
       ...this.currentExercise,
       date: new Date(),
       status: 'cancelled',
-    });
-    this.currentExercise = null;
-    this.exerciseChanged.next(this.currentExercise);
+    })
+      .then(() => {
+        this.currentExercise = null;
+        this.exerciseChanged.next(this.currentExercise);
+      })
+      .catch((error) => {
+        this._helperService.openSnackBar('Sorry, something went wrong');
+      });
   }
 
   pushPastExerciseDataToDatabase(exercise: Exercise) {

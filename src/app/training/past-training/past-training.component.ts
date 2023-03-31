@@ -31,6 +31,8 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
       .getPastExercises()
       .pipe(take(1))
       .subscribe((exercises: Exercise[]) => {
+        console.log('data');
+        console.log(exercises);
         this.dataSource.data = exercises;
       });
   }
