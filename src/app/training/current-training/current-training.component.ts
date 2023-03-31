@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Exercise } from '../interfaces/exercise.interface';
 import { StopTrainingModalComponent } from '../modals/stop-training-modal/stop-training-modal.component';
@@ -12,6 +12,7 @@ import { TrainingService } from '../services/training.service';
 export class CurrentTrainingComponent implements OnInit {
   progress = 0;
   currentExercise: Exercise;
+  userId: string;
 
   timer: NodeJS.Timer;
 

@@ -70,32 +70,48 @@ export class TrainingService {
   }
 
   completeExercise() {
-    this.pushPastExerciseDataToDatabase({
-      ...this.currentExercise,
-      date: new Date(),
-      status: 'completed',
-    })
-      .then((docRef) => {
-        this.currentExercise = null;
-        this.exerciseChanged.next(this.currentExercise);
-      })
-      .catch((error) => {
-        this._helperService.openSnackBar('Sorry, something went wrong');
+    this._helperService
+      .getLoggedInUserId()
+      .pipe(take(1))
+      .subscribe((userId) => {
+        if (userId) {
+          this.pushPastExerciseDataToDatabase({
+            ...this.currentExercise,
+            userId: userId,
+            date: new Date(),
+            status: 'completed',
+          })
+            .then((docRef) => {
+              this.currentExercise = null;
+              this.exerciseChanged.next(this.currentExercise);
+            })
+            .catch((error) => {
+              this._helperService.openSnackBar('Sorry, something went wrong');
+            });
+        }
       });
   }
 
   cancelExercise(progress: number) {
-    this.pushPastExerciseDataToDatabase({
-      ...this.currentExercise,
-      date: new Date(),
-      status: 'cancelled',
-    })
-      .then(() => {
-        this.currentExercise = null;
-        this.exerciseChanged.next(this.currentExercise);
-      })
-      .catch((error) => {
-        this._helperService.openSnackBar('Sorry, something went wrong');
+    this._helperService
+      .getLoggedInUserId()
+      .pipe(take(1))
+      .subscribe((userId) => {
+        if (userId) {
+          this.pushPastExerciseDataToDatabase({
+            ...this.currentExercise,
+            userId: userId,
+            date: new Date(),
+            status: 'cancelled',
+          })
+            .then(() => {
+              this.currentExercise = null;
+              this.exerciseChanged.next(this.currentExercise);
+            })
+            .catch((error) => {
+              this._helperService.openSnackBar('Sorry, something went wrong');
+            });
+        }
       });
   }
 
