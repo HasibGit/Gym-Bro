@@ -15,6 +15,14 @@ const routes: Routes = [
       import('./training/training.module').then((m) => m.TrainingModule),
     canLoad: [AuthGuard],
   },
+  {
+    path: 'schedule',
+    loadChildren: () =>
+      import('./gym-schedule/gym-schedule.module').then(
+        (m) => m.GymScheduleModule
+      ),
+    canLoad: [AuthGuard],
+  },
 ];
 
 @NgModule({
