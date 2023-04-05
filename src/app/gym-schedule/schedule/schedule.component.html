@@ -3,10 +3,10 @@
   <h1>Create Your Schedule</h1>
 
   <mat-card class="w-100-p p-24" fxLayout="column">
-    <div *ngFor="let day of weekDays; index as idx" [ngClass]="{'mb-40': idx > weekDays.length-1}" fxFlex="100"
-      fxLayoutAlign="start center">
-      <p fxFlex="20" class="day">{{day}}</p>
-      <div fxFlex="80">
+    <div *ngFor="let day of weekDays; index as idx" class="day-border-bottom mb-40" fxFlex="100" fxLayout="row"
+      fxLayout.lt-sm="column" fxLayoutAlign="start center" fxLayoutAlign.lt-sm="center start">
+      <p fxFlex="20" fxFlex.lt-sm="100" class="day">{{day}}</p>
+      <div fxFlex="80" fxFlex.lt-sm="100">
         <button mat-icon-button color="primary">
           <mat-icon>add</mat-icon>
         </button>

@@ -1,9 +1,14 @@
+@import "../../color-variables.scss";
 .day {
   font-size: 16;
   font-weight: 500;
-  color: #757575;
+  color: $instruction-text-color;
 }
 
 p {
   margin: 0 !important;
+}
+
+.day-border-bottom {
+  border-bottom: 1px solid $border-line-color;
 }
