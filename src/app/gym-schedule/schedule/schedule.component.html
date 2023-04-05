@@ -1,1 +1,16 @@
-<p>schedule works!</p>
+<div class="container p-30" fxLayout="column" fxLayoutAlign="center start">
+
+  <h1>Create Your Schedule</h1>
+
+  <mat-card class="w-100-p p-24" fxLayout="column">
+    <div *ngFor="let day of weekDays; index as idx" [ngClass]="{'mb-40': idx > weekDays.length-1}" fxFlex="100"
+      fxLayoutAlign="start center">
+      <p fxFlex="20" class="day">{{day}}</p>
+      <div fxFlex="80">
+        <button mat-icon-button color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>
