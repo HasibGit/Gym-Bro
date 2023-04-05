@@ -64,7 +64,7 @@ export class SignUpComponent implements OnInit {
       .registerUser(userRegistryData)
       .then((res) => {
         this.isLoading = false;
-        this.router.navigate(['/login']);
+        this.router.navigate(['auth/login']);
       })
       .catch((error) => {
         this._helperService.openSnackBar(error.message);

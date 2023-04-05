@@ -1,8 +1,10 @@
 <mat-nav-list>
-  <a *ngIf="!loggedIn" mat-list-item routerLink="/signup" routerLinkActive="active-nav" (click)="onClickSidenavLink()">
+  <a *ngIf="!loggedIn" mat-list-item routerLink="auth/signup" routerLinkActive="active-nav"
+    (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">person_add</mat-icon> <span class="sidenav-link-label">Signup</span>
   </a>
-  <a *ngIf="!loggedIn" mat-list-item routerLink="/login" routerLinkActive="active-nav" (click)="onClickSidenavLink()">
+  <a *ngIf="!loggedIn" mat-list-item routerLink="auth/login" routerLinkActive="active-nav"
+    (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">login</mat-icon> <span class="sidenav-link-label">Login</span>
   </a>
   <a *ngIf="loggedIn" mat-list-item routerLink="/training" routerLinkActive="active-nav" (click)="onClickSidenavLink()">

@@ -19,7 +19,7 @@ export class AuthService {
         this.router.navigate(['']);
       } else {
         this.authenticated.next(false);
-        this.router.navigate(['/login']);
+        this.router.navigate(['auth/login']);
       }
     });
   }
