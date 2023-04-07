@@ -1,8 +1,8 @@
 <h1 mat-dialog-title fxLayoutAlign="space-between center"><span>Add Exercise</span> <span
-    class="color-primary font-size-16">{{day}}</span></h1>
+    class="color-primary font-size-16">{{data.day}}</span></h1>
 
 <div mat-dialog-content class="mb-10">
-  <form [formGroup]="addTrainingForm" *ngIf="!isLoading" fxLayout="column">
+  <form [formGroup]="addTrainingForm" fxLayout="column">
     <mat-form-field>
       <mat-label>Select muscle group</mat-label>
       <mat-select formControlName="muscleGroup">
@@ -39,7 +39,6 @@
 
   </form>
 
-  <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>
 </div>
 
 <div mat-dialog-actions>

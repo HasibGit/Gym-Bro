@@ -11,6 +11,7 @@ import { Exercise } from '../../training/interfaces/exercise.interface';
 import { INITIAL_SCHEDULE } from '../constants/schedule.const';
 import { Schedule } from '../interfaces/schedule.interface';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { TrainingService } from '../../training/services/training.service';
 
 @Component({
   selector: 'app-schedule',
@@ -20,28 +21,42 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class ScheduleComponent implements OnInit {
   weekDays = WEEKDAYS;
   schedule: Schedule = INITIAL_SCHEDULE;
+  muscleGroups: string[];
+  isLoading: boolean;
 
   constructor(
     private _dialog: MatDialog,
-    private _dialogRef: MatDialogRef<AddExerciseComponent>
+    private _dialogRef: MatDialogRef<AddExerciseComponent>,
+    private _trainingService: TrainingService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLoading = true;
+
+    this._trainingService
+      .getMuscleGroups()
+      .pipe(take(1))
+      .subscribe((res: string[]) => {
+        this.muscleGroups = res;
+        this.isLoading = false;
+      });
+  }
 
   addExercise(day: string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = false;
     dialogConfig.width = '600px';
-    dialogConfig.data = day;
+    dialogConfig.data = { day: day, muscleGroups: this.muscleGroups };
     this._dialogRef = this._dialog.open(AddExerciseComponent, dialogConfig);
 
     this._dialogRef
       .afterClosed()
       .pipe(take(1))
       .subscribe((exercise: Exercise) => {
-        this.schedule[day].push(exercise);
-        console.log(this.schedule);
+        if (exercise) {
+          this.schedule[day].push(exercise);
+        }
       });
   }
 

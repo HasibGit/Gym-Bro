@@ -19,7 +19,8 @@ export class AddExerciseComponent implements OnInit, OnDestroy {
   unsubscribeAll: Subject<void>;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public day: string,
+    @Inject(MAT_DIALOG_DATA)
+    public data: { day: string; muscleGroups: string[] },
     private _dialogRef: MatDialogRef<AddExerciseComponent>,
     private _fb: FormBuilder,
     private trainingService: TrainingService
@@ -29,15 +30,7 @@ export class AddExerciseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initTrainingForm();
-    this.isLoading = true;
-
-    this.trainingService
-      .getMuscleGroups()
-      .pipe(take(1))
-      .subscribe((res: string[]) => {
-        this.muscleGroups = res;
-        this.isLoading = false;
-      });
+    this.muscleGroups = this.data.muscleGroups;
 
     this.addTrainingForm
       .get('muscleGroup')

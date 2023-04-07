@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FlexLayoutModule,
     MaterialModule,
     DragDropModule,
+    NgxLoadingModule.forRoot({}),
   ],
   exports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FlexLayoutModule,
     MaterialModule,
     DragDropModule,
+    NgxLoadingModule,
   ],
 })
 export class SharedModule {}
