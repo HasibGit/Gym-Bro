@@ -1,1 +1,10 @@
-<p>add-exercise works!</p>
+<h1 mat-dialog-title fxLayoutAlign="space-between center"><span>Add Exercise</span> <span
+    class="color-primary font-size-16">{{day}}</span></h1>
+
+<div mat-dialog-content class="mb-10">
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button [mat-dialog-close]="{exitTraining: true}" color="warn" cdkFocusInitial>Save</button>
+</div>

@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "./app/color-variables.scss";
+
 html,
 body {
   height: 100%;
@@ -16,6 +18,34 @@ body {
 .container {
   height: calc(100% - 56px);
   width: 100%;
+}
+
+.font-size-10 {
+  font-size: 10px;
+}
+.font-size-12 {
+  font-size: 12px;
+}
+.font-size-14 {
+  font-size: 14px;
+}
+.font-size-16 {
+  font-size: 16px;
+}
+.font-size-18 {
+  font-size: 18px;
+}
+.font-size-20 {
+  font-size: 20px;
+}
+.font-size-22 {
+  font-size: 2px;
+}
+.font-size-24 {
+  font-size: 24px;
+}
+.font-size-30 {
+  font-size: 30px;
 }
 
 .mt-5 {
@@ -83,4 +113,16 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.color-primary {
+  color: $primary-color;
+}
+
+.color-accent {
+  color: $accent-color;
+}
+
+.color-warn {
+  color: $warn-color;
 }

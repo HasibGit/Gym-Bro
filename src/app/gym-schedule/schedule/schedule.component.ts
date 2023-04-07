@@ -28,6 +28,7 @@ export class ScheduleComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = false;
     dialogConfig.width = '600px';
+    dialogConfig.data = day;
     this._dialogRef = this._dialog.open(AddExerciseComponent, dialogConfig);
 
     this._dialogRef
