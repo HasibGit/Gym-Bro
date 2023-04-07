@@ -12,7 +12,7 @@
         <mat-chip-list class="exercises-chip-list" cdkDropList cdkDropListOrientation="horizontal"
           (cdkDropListDropped)="drop($event, day)">
           <mat-chip *ngFor="let exercise of schedule[day]; index as exerciseIndex" class="exercise-chip" cdkDrag
-            (removed)="removeExercise(day, exerciseIndex)">{{exerciseIndex + '. '}}{{exercise.Name}}
+            (removed)="removeExercise(day, exerciseIndex)">{{(exerciseIndex + 1) + '. '}}{{exercise.Name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
