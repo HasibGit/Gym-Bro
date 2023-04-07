@@ -50,14 +50,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       });
 
-    // this.trainingService
-    //   .fetchExercises()
-    //   .pipe(take(1))
-    //   .subscribe((res) => {
-    //     this.workouts = res;
-    //     this.isLoading = false;
-    //   });
-
     this.startTrainingForm
       .get('muscleGroup')
       .valueChanges.pipe(takeUntil(this.unsubscribeAll))
@@ -111,15 +103,6 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
       this.trainingService.setCurrentExercise(this.chosenExercise);
       this.newTrainingStarted.emit(true);
     }
-
-    // this.chosenExercise = this.workouts.find(
-    //   (workout: Exercise) =>
-    //     workout.id === this.startTrainingForm.get('workout').value
-    // );
-    // if (this.chosenExercise) {
-    //   this.trainingService.setCurrentExercise(this.chosenExercise);
-    //   this.newTrainingStarted.emit(true);
-    // }
   }
 
   ngOnDestroy(): void {
