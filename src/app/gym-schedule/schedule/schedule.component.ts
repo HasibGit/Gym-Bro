@@ -45,12 +45,9 @@ export class ScheduleComponent implements OnInit {
       });
   }
 
-  // removeExercise(day: string, index: number) {
-  //   this.schedule[day] = ({ ...this.schedule }[day] as Exercise[]).slice(
-  //     index,
-  //     index + 1
-  //   );
-  // }
+  removeExercise(day: string, index: number) {
+    (this.schedule[day] as Exercise[]).splice(index);
+  }
 
   // drop(event: CdkDragDrop<Exercise[]>, day: string) {
   //   moveItemInArray(
