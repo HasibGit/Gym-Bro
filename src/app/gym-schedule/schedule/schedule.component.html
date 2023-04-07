@@ -1,6 +1,7 @@
 <div class="container p-30" fxLayout="column" fxLayoutAlign="center start">
 
   <h1>Create Your Schedule</h1>
+  <mat-hint class="mb-10">Drag and drop to change exercise order</mat-hint>
 
   <mat-card class="w-100-p p-24" fxLayout="column">
     <div *ngFor="let day of weekDays; index as idx" class="day-border-bottom mb-40" fxFlex="100" fxLayout="row"
@@ -8,12 +9,14 @@
       <p fxFlex="20" fxFlex.lt-sm="100" class="day">{{day}}</p>
       <div fxFlex="80" fxFlex.lt-sm="100" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
 
-        <mat-chip-list class="exercises-chip-list" *ngFor="let exercise of schedule[day]; index as exerciseIndex"
-          cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event, day)">
-          <mat-chip class="exercise-chip" cdkDrag (removed)="removeExercise(day, exerciseIndex)">{{exercise.Name}}
+        <mat-chip-list class="exercises-chip-list" cdkDropList cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="drop($event, day)">
+          <mat-chip *ngFor="let exercise of schedule[day]; index as exerciseIndex" class="exercise-chip" cdkDrag
+            (removed)="removeExercise(day, exerciseIndex)">{{exerciseIndex + '. '}}{{exercise.Name}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
-            </button></mat-chip>
+            </button>
+          </mat-chip>
         </mat-chip-list>
 
         <button mat-icon-button color="primary" (click)="addExercise(day)">
@@ -22,4 +25,5 @@
       </div>
     </div>
   </mat-card>
+
 </div>
