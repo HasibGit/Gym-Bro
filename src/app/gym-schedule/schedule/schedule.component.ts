@@ -7,6 +7,9 @@ import {
 import { WEEKDAYS } from '../constants/days.const';
 import { AddExerciseComponent } from '../modals/add-exercise/add-exercise.component';
 import { take } from 'rxjs';
+import { Exercise } from '../../training/interfaces/exercise.interface';
+import { INITIAL_SCHEDULE } from '../constants/schedule.const';
+import { Schedule } from '../interfaces/schedule.interface';
 
 @Component({
   selector: 'app-schedule',
@@ -15,6 +18,7 @@ import { take } from 'rxjs';
 })
 export class ScheduleComponent implements OnInit {
   weekDays = WEEKDAYS;
+  schedule: Schedule = INITIAL_SCHEDULE;
 
   constructor(
     private _dialog: MatDialog,
@@ -34,8 +38,9 @@ export class ScheduleComponent implements OnInit {
     this._dialogRef
       .afterClosed()
       .pipe(take(1))
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe((exercise: Exercise) => {
+        this.schedule[day].push(exercise);
+        console.log(this.schedule);
       });
   }
 }
