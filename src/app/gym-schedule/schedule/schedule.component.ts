@@ -10,6 +10,7 @@ import { take } from 'rxjs';
 import { Exercise } from '../../training/interfaces/exercise.interface';
 import { INITIAL_SCHEDULE } from '../constants/schedule.const';
 import { Schedule } from '../interfaces/schedule.interface';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-schedule',
@@ -43,4 +44,19 @@ export class ScheduleComponent implements OnInit {
         console.log(this.schedule);
       });
   }
+
+  // removeExercise(day: string, index: number) {
+  //   this.schedule[day] = ({ ...this.schedule }[day] as Exercise[]).slice(
+  //     index,
+  //     index + 1
+  //   );
+  // }
+
+  // drop(event: CdkDragDrop<Exercise[]>, day: string) {
+  //   moveItemInArray(
+  //     this.schedule[day],
+  //     event.previousIndex,
+  //     event.currentIndex
+  //   );
+  // }
 }

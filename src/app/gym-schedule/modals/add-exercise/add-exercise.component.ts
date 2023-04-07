@@ -71,7 +71,21 @@ export class AddExerciseComponent implements OnInit, OnDestroy {
   }
 
   addExercise() {
-    this.chosenExercise = this.addTrainingForm.getRawValue();
+    const formData: {
+      break: number;
+      muscleGroup: string;
+      setDuration: number;
+      sets: number;
+      workout: string;
+    } = this.addTrainingForm.getRawValue();
+    this.chosenExercise = this.workouts.find(
+      (workout: Exercise) =>
+        workout.Name === this.addTrainingForm.get('workout').value
+    );
+    this.chosenExercise.Sets = formData.sets;
+    this.chosenExercise.SetDuration = formData.setDuration;
+    this.chosenExercise.Break = formData.break;
+
     this._dialogRef.close(this.chosenExercise);
   }
 
