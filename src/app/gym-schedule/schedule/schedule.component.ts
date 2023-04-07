@@ -49,11 +49,11 @@ export class ScheduleComponent implements OnInit {
     (this.schedule[day] as Exercise[]).splice(index);
   }
 
-  // drop(event: CdkDragDrop<Exercise[]>, day: string) {
-  //   moveItemInArray(
-  //     this.schedule[day],
-  //     event.previousIndex,
-  //     event.currentIndex
-  //   );
-  // }
+  drop(event: CdkDragDrop<Exercise[]>, day: string) {
+    moveItemInArray(
+      this.schedule[day],
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
 }

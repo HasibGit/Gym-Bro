@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [],
@@ -12,6 +13,7 @@ import { MaterialModule } from '../material/material.module';
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
+    DragDropModule,
   ],
   exports: [
     CommonModule,
@@ -19,6 +21,7 @@ import { MaterialModule } from '../material/material.module';
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
+    DragDropModule,
   ],
 })
 export class SharedModule {}

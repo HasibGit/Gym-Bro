@@ -12,3 +12,11 @@ p {
 .day-border-bottom {
   border-bottom: 1px solid $border-line-color;
 }
+
+.exercises-chip.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.exercise-chip .cdk-drop-list-dragging {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
