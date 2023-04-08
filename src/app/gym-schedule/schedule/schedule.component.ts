@@ -23,6 +23,7 @@ export class ScheduleComponent implements OnInit {
   schedule: Schedule = INITIAL_SCHEDULE;
   muscleGroups: string[];
   isLoading: boolean;
+  scheduleEditCounter: number = 0;
 
   constructor(
     private _dialog: MatDialog,
@@ -56,12 +57,14 @@ export class ScheduleComponent implements OnInit {
       .subscribe((exercise: Exercise) => {
         if (exercise) {
           this.schedule[day].push(exercise);
+          this.scheduleEditCounter++;
         }
       });
   }
 
   removeExercise(day: string, index: number) {
     (this.schedule[day] as Exercise[]).splice(index);
+    this.scheduleEditCounter--;
   }
 
   drop(event: CdkDragDrop<Exercise[]>, day: string) {
