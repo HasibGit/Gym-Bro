@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, Subject, take, map, Subscription } from 'rxjs';
+import { Observable, Subject, take, map, Subscription, switchMap } from 'rxjs';
+import { Schedule } from '../../gym-schedule/interfaces/schedule.interface';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { HTTP_COMMON_HEADER } from '../../shared/constants/http-options.const';
 import { HelperService } from '../../shared/services/helper.service';
@@ -120,6 +121,19 @@ export class TrainingService {
 
   pushPastExerciseDataToDatabase(exercise: Exercise) {
     return this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
+  }
+
+  pushScheduleDataToDatabase(schedule: Schedule): Promise<any> {
+    return this._afs.collection(COLLECTIONS.schedules).add(schedule);
+  }
+
+  saveSchedule(schedule: Schedule): Observable<any> {
+    return this._helperService.getLoggedInUserId().pipe(
+      take(1),
+      switchMap((userId: string) => {
+        return this.pushScheduleDataToDatabase({ ...schedule, userId: userId });
+      })
+    );
   }
 
   getPastExercises(userId: string) {

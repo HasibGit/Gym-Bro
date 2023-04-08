@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subject, take, takeUntil } from 'rxjs';
+import { retry, Subject, take, takeUntil } from 'rxjs';
 import { Exercise } from '../../../training/interfaces/exercise.interface';
 import { TrainingService } from '../../../training/services/training.service';
 

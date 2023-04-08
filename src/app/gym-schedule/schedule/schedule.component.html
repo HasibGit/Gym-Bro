@@ -4,7 +4,10 @@
       <h1>Create Your Schedule</h1>
       <mat-hint class="mb-10">Drag and drop to change exercise order</mat-hint>
     </div>
-    <button mat-raised-button color="primary" [disabled]="scheduleEditCounter <= 0">Save</button>
+    <button style="height: 36.6px" mat-raised-button color="primary" [disabled]="scheduleEditCounter <= 0"
+      (click)="saveSchedule()" fxLayout="row" fxLayoutAlign="center center">
+      <mat-spinner [diameter]="20" *ngIf="isSaving"></mat-spinner> <span *ngIf="!isSaving">Save</span>
+    </button>
   </div>
 
 

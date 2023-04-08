@@ -12,6 +12,7 @@ import { INITIAL_SCHEDULE } from '../constants/schedule.const';
 import { Schedule } from '../interfaces/schedule.interface';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingService } from '../../training/services/training.service';
+import { HelperService } from '../../shared/services/helper.service';
 
 @Component({
   selector: 'app-schedule',
@@ -23,12 +24,14 @@ export class ScheduleComponent implements OnInit {
   schedule: Schedule = INITIAL_SCHEDULE;
   muscleGroups: string[];
   isLoading: boolean;
+  isSaving: boolean;
   scheduleEditCounter: number = 0;
 
   constructor(
     private _dialog: MatDialog,
     private _dialogRef: MatDialogRef<AddExerciseComponent>,
-    private _trainingService: TrainingService
+    private _trainingService: TrainingService,
+    private _helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -73,5 +76,21 @@ export class ScheduleComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  saveSchedule() {
+    this.isSaving = true;
+    this._trainingService
+      .saveSchedule(this.schedule)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.isSaving = false;
+        },
+        (error) => {
+          this._helperService.openSnackBar('Sorry, something went wrong.');
+        }
+      );
   }
 }
