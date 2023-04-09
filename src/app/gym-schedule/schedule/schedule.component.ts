@@ -13,6 +13,7 @@ import { Schedule } from '../interfaces/schedule.interface';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingService } from '../../training/services/training.service';
 import { HelperService } from '../../shared/services/helper.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-schedule',
@@ -31,7 +32,9 @@ export class ScheduleComponent implements OnInit {
     private _dialog: MatDialog,
     private _dialogRef: MatDialogRef<AddExerciseComponent>,
     private _trainingService: TrainingService,
-    private _helperService: HelperService
+    private _helperService: HelperService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -85,8 +88,9 @@ export class ScheduleComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         (res) => {
-          console.log(res);
+          this._helperService.openSnackBar('Schedule saved successfully!');
           this.isSaving = false;
+          this.router.navigate(['/my-schedule'], { relativeTo: this.route });
         },
         (error) => {
           this._helperService.openSnackBar('Sorry, something went wrong.');
