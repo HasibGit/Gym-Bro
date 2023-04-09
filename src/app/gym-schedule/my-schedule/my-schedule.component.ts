@@ -23,8 +23,8 @@ export class MyScheduleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getDayName();
-
     this._helperService
       .getLoggedInUserId()
       .pipe(take(1))
@@ -33,7 +33,7 @@ export class MyScheduleComponent implements OnInit {
           .getMySchedule(userId)
           .pipe(take(1))
           .subscribe((schedules: Schedule[]) => {
-            if ((schedules[0][this.dayName] as Exercise[]).length > 0) {
+            if ((schedules[0]?.[this.dayName] as Exercise[]).length > 0) {
               this.todaysSchedule = schedules[0][this.dayName];
             } else {
               this.noWorkoutsScheduled = true;
