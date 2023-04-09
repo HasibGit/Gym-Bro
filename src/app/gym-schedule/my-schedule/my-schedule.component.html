@@ -1,20 +1,25 @@
-<div class="container p-30" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.lt-sm="center start">
-  <h1 class="mb-20">My Schedule ({{dayName}})</h1>
+<div class="container p-30">
+  <div class="w-100-p" *ngIf="!isLoading" fxLayout="column" fxLayoutAlign="center center"
+    fxLayoutAlign.lt-sm="center start">
+    <h1 class="mb-20">My Schedule ({{dayName}})</h1>
 
-  <p *ngIf="noWorkoutsScheduled">No workouts scheduled for today</p>
+    <p *ngIf="noWorkoutsScheduled">No workouts scheduled for today</p>
 
-  <div *ngIf="!noWorkoutsScheduled" fxFlex="60" fxFlex.lt-md="100">
-    <mat-selection-list [multiple]="false">
-      <mat-list-option *ngFor="let exercise of todaysSchedule; index as idx">
-        <div mat-line>{{(idx+1) + '. '}}{{exercise?.Name}}</div>
-        <div mat-line class="schedule-exercise-subheader"> <span class="mr-20"><span
-              class="font-weight-500">Sets:</span>
-            {{exercise?.Sets}}</span> <span class="mr-20"><span class="font-weight-500">Set Duration:</span>
-            {{exercise?.SetDuration}}</span> <span class="mr-20"><span class="font-weight-500">Break:</span>
-            {{exercise?.Break}}</span></div>
-      </mat-list-option>
-    </mat-selection-list>
+    <div class="mb-20" *ngIf="!noWorkoutsScheduled" fxFlex="60" fxFlex.lt-md="100">
+      <mat-selection-list [multiple]="false">
+        <mat-list-option *ngFor="let exercise of todaysSchedule; index as idx" (click)="onSelectExercise(exercise)">
+          <div mat-line>{{(idx+1) + '. '}}{{exercise?.Name}}</div>
+          <div mat-line class="schedule-exercise-subheader"> <span class="mr-20"><span
+                class="font-weight-500">Sets:</span>
+              {{exercise?.Sets}}</span> <span class="mr-20"><span class="font-weight-500">Set Duration:</span>
+              {{exercise?.SetDuration}}</span> <span class="mr-20"><span class="font-weight-500">Break:</span>
+              {{exercise?.Break}}</span></div>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <button mat-raised-button color="accent" [disabled]="!selectedExercise" (click)="startExercise()">Start
+      Exercise</button>
   </div>
-
   <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 </div>

@@ -4,6 +4,8 @@ import { TrainingService } from '../../training/services/training.service';
 import { take } from 'rxjs';
 import { Schedule } from '../interfaces/schedule.interface';
 import { Exercise } from '../../training/interfaces/exercise.interface';
+import { MatSelectionListChange } from '@angular/material/list';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-schedule',
@@ -16,10 +18,12 @@ export class MyScheduleComponent implements OnInit {
   today = new Date();
   dayName: string;
   noWorkoutsScheduled: boolean;
+  selectedExercise: Exercise;
 
   constructor(
     private _helperService: HelperService,
-    private _trainingService: TrainingService
+    private _trainingService: TrainingService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,5 +51,14 @@ export class MyScheduleComponent implements OnInit {
   getDayName() {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long' };
     this.dayName = this.today.toLocaleString('en-US', options);
+  }
+
+  onSelectExercise(exercise: Exercise) {
+    this.selectedExercise = exercise;
+  }
+
+  startExercise() {
+    this._trainingService.exerciseChanged.next(this.selectedExercise);
+    this._router.navigate(['/training']);
   }
 }
