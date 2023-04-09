@@ -7,6 +7,12 @@
     (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">login</mat-icon> <span class="sidenav-link-label">Login</span>
   </a>
+
+  <a *ngIf="loggedIn" mat-list-item routerLink="/schedule/my-schedule" routerLinkActive="active-nav"
+    (click)="onClickSidenavLink()">
+    <mat-icon class="sidenav-link-icon">person</mat-icon> <span class="sidenav-link-label">My Schedule</span>
+  </a>
+
   <a *ngIf="loggedIn" mat-list-item routerLink="/training" routerLinkActive="active-nav" (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">fitness_center</mat-icon> <span class="sidenav-link-label">Training</span>
   </a>
