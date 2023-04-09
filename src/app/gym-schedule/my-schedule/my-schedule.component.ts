@@ -58,7 +58,6 @@ export class MyScheduleComponent implements OnInit {
   }
 
   startExercise() {
-    this._trainingService.exerciseChanged.next(this.selectedExercise);
-    this._router.navigate(['/training']);
+    this._trainingService.setCurrentExercise(this.selectedExercise);
   }
 }
