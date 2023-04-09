@@ -1,1 +1,6 @@
-<p>my-schedule works!</p>
+<div class="container p-30" fxLayout="row" fxLayoutAlign="center center">
+
+  <p *ngIf="noWorkoutsScheduled">No workouts scheduled for today</p>
+
+  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+</div>

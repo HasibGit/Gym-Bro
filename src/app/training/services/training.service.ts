@@ -139,4 +139,17 @@ export class TrainingService {
   getPastExercises(userId: string) {
     return this.fetchPastExercises(userId);
   }
+
+  fetchMySchedule(userId: string): Observable<any[]> {
+    return this._afs
+      .collection<any>(COLLECTIONS.schedules, (ref) =>
+        ref.where('userId', '==', userId)
+      )
+      .valueChanges()
+      .pipe(take(1));
+  }
+
+  getMySchedule(userId: string) {
+    return this.fetchMySchedule(userId);
+  }
 }
