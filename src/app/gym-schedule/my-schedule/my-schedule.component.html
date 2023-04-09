@@ -1,6 +1,5 @@
-<div class="container p-30">
-  <div class="w-100-p" *ngIf="!isLoading" fxLayout="column" fxLayoutAlign="center center"
-    fxLayoutAlign.lt-sm="center start">
+<div class="p-30">
+  <div *ngIf="!isLoading" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.lt-sm="center start">
     <h1 class="mb-20">My Schedule ({{dayName}})</h1>
 
     <p *ngIf="noWorkoutsScheduled">No workouts scheduled for today</p>

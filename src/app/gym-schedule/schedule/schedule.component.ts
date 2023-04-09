@@ -90,7 +90,7 @@ export class ScheduleComponent implements OnInit {
         (res) => {
           this._helperService.openSnackBar('Schedule saved successfully!');
           this.isSaving = false;
-          this.router.navigate(['/my-schedule'], { relativeTo: this.route });
+          this.router.navigate(['my-schedule'], { relativeTo: this.route });
         },
         (error) => {
           this._helperService.openSnackBar('Sorry, something went wrong.');
