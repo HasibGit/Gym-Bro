@@ -4,7 +4,6 @@ import { TrainingService } from '../../training/services/training.service';
 import { take } from 'rxjs';
 import { Schedule } from '../interfaces/schedule.interface';
 import { Exercise } from '../../training/interfaces/exercise.interface';
-import { MatSelectionListChange } from '@angular/material/list';
 import { Router } from '@angular/router';
 
 @Component({
@@ -60,6 +59,7 @@ export class MyScheduleComponent implements OnInit {
   startExercise() {
     this._trainingService.setCurrentExercise(this.selectedExercise);
     this._trainingService.exerciseChanged.next(this.selectedExercise);
+    this._trainingService.startScheduleWorkout();
     this._router.navigate(['/training']);
   }
 }

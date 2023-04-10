@@ -12,17 +12,29 @@ import { Exercise } from '../interfaces/exercise.interface';
   providedIn: 'root',
 })
 export class TrainingService {
-  private pastExercises: Exercise[] = [];
-
   public exerciseChanged: Subject<Exercise> = new Subject();
 
   private currentExercise: Exercise;
+
+  private scheduleWorkoutOngoing: boolean;
 
   constructor(
     private _afs: AngularFirestore,
     private _http: HttpClient,
     private _helperService: HelperService
   ) {}
+
+  startScheduleWorkout() {
+    this.scheduleWorkoutOngoing = true;
+  }
+
+  endScheduleWorkout() {
+    this.scheduleWorkoutOngoing = false;
+  }
+
+  isScheduleWorkoutOngoing() {
+    return this.scheduleWorkoutOngoing;
+  }
 
   getMuscleGroups(): Observable<string[]> {
     return this._http.get<string[]>(
