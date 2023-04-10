@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { WEEKDAYS } from '../constants/days.const';
 import { AddExerciseComponent } from '../modals/add-exercise/add-exercise.component';
-import { take } from 'rxjs';
+import { shareReplay, switchMap, take } from 'rxjs';
 import { Exercise } from '../../training/interfaces/exercise.interface';
 import { INITIAL_SCHEDULE } from '../constants/schedule.const';
 import { Schedule } from '../interfaces/schedule.interface';
@@ -25,6 +25,7 @@ export class ScheduleComponent implements OnInit {
   schedule: Schedule = { ...INITIAL_SCHEDULE };
   muscleGroups: string[];
   isLoading: boolean;
+  hasPriorSchedule: boolean;
   isSaving: boolean;
   scheduleEditCounter: number = 0;
 
@@ -40,12 +41,29 @@ export class ScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
+    const userIdObs$ = this._helperService.getLoggedInUserId().pipe(take(1));
+    const myScheduleObs$ = userIdObs$.pipe(
+      take(1),
+      shareReplay(1),
+      switchMap((userId: string) => {
+        return this._trainingService.getMySchedule(userId);
+      })
+    );
+
     this._trainingService
       .getMuscleGroups()
       .pipe(take(1))
       .subscribe((res: string[]) => {
         this.muscleGroups = res;
-        this.isLoading = false;
+        myScheduleObs$
+          .pipe(take(1), shareReplay(1))
+          .subscribe((schedules: Schedule[]) => {
+            if (schedules.length > 0) {
+              this.schedule = schedules[0];
+              this.hasPriorSchedule = true;
+            }
+            this.isLoading = false;
+          });
       });
   }
 
