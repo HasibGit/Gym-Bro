@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +17,7 @@ import { HelperService } from '../../shared/services/helper.service';
   selector: 'app-past-training',
   templateUrl: './past-training.component.html',
   styleUrls: ['./past-training.component.scss'],
+  providers: [MatSort],
 })
 export class PastTrainingComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
@@ -27,7 +34,8 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
 
   constructor(
     private _trainingService: TrainingService,
-    private _helperService: HelperService
+    private _helperService: HelperService,
+    private _cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -45,8 +53,11 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.sort.active = 'date';
+    this.sort.direction = 'desc';
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this._cdr.detectChanges();
   }
 
   filterData(event: KeyboardEvent) {

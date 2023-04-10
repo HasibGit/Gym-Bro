@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxLoadingModule } from 'ngx-loading';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     FlexLayoutModule,
     MaterialModule,
     DragDropModule,
+    MatSortModule,
     NgxLoadingModule.forRoot({}),
   ],
   exports: [
@@ -25,6 +27,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     MaterialModule,
     DragDropModule,
     NgxLoadingModule,
+    MatSortModule,
   ],
 })
 export class SharedModule {}
