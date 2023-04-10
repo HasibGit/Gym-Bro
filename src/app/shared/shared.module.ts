@@ -5,9 +5,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material/material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgxLoadingModule } from 'ngx-loading';
+import { OngoingWorkoutComponent } from './components/ongoing-workout/ongoing-workout.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    OngoingWorkoutComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,

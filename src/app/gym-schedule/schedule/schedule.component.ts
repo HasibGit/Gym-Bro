@@ -22,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ScheduleComponent implements OnInit {
   weekDays = WEEKDAYS;
-  schedule: Schedule = INITIAL_SCHEDULE;
+  schedule: Schedule = { ...INITIAL_SCHEDULE };
   muscleGroups: string[];
   isLoading: boolean;
   isSaving: boolean;
