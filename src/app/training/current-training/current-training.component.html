@@ -4,7 +4,7 @@
   </mat-progress-spinner>
   <mat-progress-spinner class="mb-5" color="warn" mode="determinate" [value]="intervalProgress" *ngIf="intervalOngoing">
   </mat-progress-spinner>
-  <h1>{{progress}}%</h1>
+  <h1>{{!intervalOngoing ? progress : intervalProgress}}%</h1>
   <p *ngIf="!intervalOngoing">Sets completed: {{numberOfSetsCompleted}}/{{currentExercise.Sets}}</p>
   <p *ngIf="intervalOngoing">Take rest</p>
   <button mat-raised-button color="accent" (click)="stopTraining()">Stop</button>
