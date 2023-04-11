@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import * as fromAuth from '../state/auth.reducer';
+import * as authActions from '../state/auth.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  authenticated: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-  constructor(private router: Router, private _afa: AngularFireAuth) {}
+  constructor(
+    private router: Router,
+    private _afa: AngularFireAuth,
+    private store: Store<fromAuth.State>
+  ) {}
 
   initAuthListener() {
     this._afa.authState.subscribe((user) => {
       if (user) {
-        this.authenticated.next(true);
+        this.store.dispatch(new authActions.Authenticate());
         this.router.navigate(['']);
       } else {
-        this.authenticated.next(false);
+        this.store.dispatch(new authActions.Unauthenticate());
         this.router.navigate(['auth/login']);
       }
     });
@@ -39,6 +43,8 @@ export class AuthService {
   }
 
   logout() {
-    this._afa.signOut();
+    this._afa.signOut().then(() => {
+      this.store.dispatch(new authActions.Unauthenticate());
+    });
   }
 }

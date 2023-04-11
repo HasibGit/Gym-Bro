@@ -1,27 +1,29 @@
 <mat-nav-list>
-  <a *ngIf="!loggedIn" mat-list-item routerLink="auth/signup" routerLinkActive="active-nav"
+  <a *ngIf="!(loggedIn$ | async)" mat-list-item routerLink="auth/signup" routerLinkActive="active-nav"
     (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">person_add</mat-icon> <span class="sidenav-link-label">Signup</span>
   </a>
-  <a *ngIf="!loggedIn" mat-list-item routerLink="auth/login" routerLinkActive="active-nav"
+  <a *ngIf="!(loggedIn$ | async)" mat-list-item routerLink="auth/login" routerLinkActive="active-nav"
     (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">login</mat-icon> <span class="sidenav-link-label">Login</span>
   </a>
 
-  <a *ngIf="loggedIn" mat-list-item routerLink="/schedule" routerLinkActive="active-nav" (click)="onClickSidenavLink()">
+  <a *ngIf="loggedIn$ | async" mat-list-item routerLink="/schedule" routerLinkActive="active-nav"
+    (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">add</mat-icon> <span class="sidenav-link-label">Make Schedule</span>
   </a>
 
-  <a *ngIf="loggedIn" mat-list-item routerLink="/schedule/my-schedule" routerLinkActive="active-nav"
+  <a *ngIf="loggedIn$ | async" mat-list-item routerLink="/schedule/my-schedule" routerLinkActive="active-nav"
     (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">person</mat-icon> <span class="sidenav-link-label">My Schedule</span>
   </a>
 
-  <a *ngIf="loggedIn" mat-list-item routerLink="/training" routerLinkActive="active-nav" (click)="onClickSidenavLink()">
+  <a *ngIf="loggedIn$ | async" mat-list-item routerLink="/training" routerLinkActive="active-nav"
+    (click)="onClickSidenavLink()">
     <mat-icon class="sidenav-link-icon">fitness_center</mat-icon> <span class="sidenav-link-label">Training</span>
   </a>
 
-  <a *ngIf="loggedIn" mat-list-item routerLinkActive="active-nav" (click)="logout()">
+  <a *ngIf="loggedIn$ | async" mat-list-item routerLinkActive="active-nav" (click)="logout()">
     <mat-icon class="sidenav-link-icon">logout</mat-icon><span class="sidenav-link-label">Logout</span>
   </a>
 

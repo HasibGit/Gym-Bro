@@ -9,14 +9,20 @@ import {
   UrlSegment,
   UrlTree,
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import * as fromRoot from '../../state/app/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private store: Store<fromRoot.State>
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,7 +32,7 @@ export class AuthGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.authenticated;
+    return this.store.select(fromRoot.getIsAuthenticated);
   }
 
   canLoad(
@@ -37,6 +43,6 @@ export class AuthGuard implements CanActivate, CanLoad {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    return this.authService.authenticated;
+    return this.store.select(fromRoot.getIsAuthenticated);
   }
 }
