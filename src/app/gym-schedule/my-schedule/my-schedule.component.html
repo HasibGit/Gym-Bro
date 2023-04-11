@@ -1,5 +1,5 @@
 <div class="p-30">
-  <div *ngIf="!isLoading" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.lt-sm="center start">
+  <div *ngIf="!(isLoading$ | async)" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.lt-sm="center start">
     <h1 class="mb-20">My Schedule ({{dayName}})</h1>
 
     <p *ngIf="noWorkoutsScheduled">No workouts scheduled for today</p>
@@ -17,8 +17,9 @@
       </mat-selection-list>
     </div>
 
-    <button mat-raised-button color="accent" [disabled]="!selectedExercise" (click)="startExercise()">Start
+    <button *ngIf="!noWorkoutsScheduled" mat-raised-button color="accent" [disabled]="!selectedExercise"
+      (click)="startExercise()">Start
       Exercise</button>
   </div>
-  <ngx-loading [show]="isLoading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+  <ngx-loading [show]="isLoading$ | async" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 </div>

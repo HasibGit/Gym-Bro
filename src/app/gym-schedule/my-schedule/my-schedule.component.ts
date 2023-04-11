@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HelperService } from '../../shared/services/helper.service';
 import { TrainingService } from '../../training/services/training.service';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Schedule } from '../interfaces/schedule.interface';
 import { Exercise } from '../../training/interfaces/exercise.interface';
 import { Router } from '@angular/router';
+import * as fromRoot from '../../state/app/app.reducer';
+import { Store } from '@ngrx/store';
+import * as UI from '../../shared/state/ui.actions';
 
 @Component({
   selector: 'app-my-schedule',
@@ -12,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./my-schedule.component.scss'],
 })
 export class MyScheduleComponent implements OnInit {
-  isLoading: boolean;
+  isLoading$: Observable<boolean>;
   todaysSchedule: Exercise[] = [];
   today = new Date();
   dayName: string;
@@ -22,11 +25,13 @@ export class MyScheduleComponent implements OnInit {
   constructor(
     private _helperService: HelperService,
     private _trainingService: TrainingService,
-    private _router: Router
+    private _router: Router,
+    private _store: Store<fromRoot.State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.isLoading$ = this._store.select(fromRoot.getIsLoading);
+    this._store.dispatch(new UI.StartLoading());
     this.getDayName();
     this._helperService
       .getLoggedInUserId()
@@ -42,7 +47,7 @@ export class MyScheduleComponent implements OnInit {
               this.noWorkoutsScheduled = true;
             }
 
-            this.isLoading = false;
+            this._store.dispatch(new UI.StopLoading());
           });
       });
   }
