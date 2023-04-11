@@ -2,7 +2,7 @@
   <mat-card fxFlex="400px" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
     <mat-card-title class="mb-24">Time to start a workout!</mat-card-title>
 
-    <form [formGroup]="startTrainingForm" *ngIf="!isLoading" fxLayout="column">
+    <form [formGroup]="startTrainingForm" *ngIf="!(isLoading$ | async)" fxLayout="column">
       <mat-form-field>
         <mat-label>Select muscle group</mat-label>
         <mat-select formControlName="muscleGroup">
@@ -39,7 +39,7 @@
 
     </form>
 
-    <mat-spinner *ngIf="isLoading" [diameter]="40"></mat-spinner>
+    <mat-spinner *ngIf="isLoading$ | async" [diameter]="40"></mat-spinner>
 
     <button mat-button [disabled]="!startTrainingForm.valid" (click)="onStartTraining()">Start</button>
   </mat-card>

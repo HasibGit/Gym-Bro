@@ -13,8 +13,11 @@ import {
 } from '@angular/forms';
 import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import * as fromRoot from '../../state/app/app.reducer';
+import * as UI from '../../shared/state/ui.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-new-training',
@@ -26,28 +29,33 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   muscleGroups: string[];
   startTrainingForm: FormGroup;
   chosenExercise: Exercise;
-  isLoading: boolean;
+  isLoading$: Observable<boolean>;
   unsubscribeAll: Subject<void>;
   @Output() newTrainingStarted: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private trainingService: TrainingService,
     private fb: FormBuilder,
-    public _dialog: MatDialog
+    public _dialog: MatDialog,
+    private store: Store<fromRoot.State>
   ) {
     this.unsubscribeAll = new Subject();
   }
 
   ngOnInit(): void {
+
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+
     this.initTrainingForm();
-    this.isLoading = true;
+    
+    this.store.dispatch(new UI.StartLoading());
 
     this.trainingService
       .getMuscleGroups()
       .pipe(take(1))
       .subscribe((res: string[]) => {
         this.muscleGroups = res;
-        this.isLoading = false;
+        this.store.dispatch(new UI.StopLoading());
       });
 
     this.startTrainingForm
