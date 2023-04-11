@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { WEEKDAYS } from '../constants/days.const';
 import { AddExerciseComponent } from '../modals/add-exercise/add-exercise.component';
-import { shareReplay, switchMap, take } from 'rxjs';
+import { Observable, shareReplay, switchMap, take } from 'rxjs';
 import { Exercise } from '../../training/interfaces/exercise.interface';
 import { INITIAL_SCHEDULE } from '../constants/schedule.const';
 import { Schedule } from '../interfaces/schedule.interface';
@@ -14,6 +14,9 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { TrainingService } from '../../training/services/training.service';
 import { HelperService } from '../../shared/services/helper.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as fromRoot from '../../state/app/app.reducer';
+import * as UI from '../../shared/state/ui.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-schedule',
@@ -24,7 +27,7 @@ export class ScheduleComponent implements OnInit {
   weekDays = WEEKDAYS;
   schedule: Schedule = { ...INITIAL_SCHEDULE };
   muscleGroups: string[];
-  isLoading: boolean;
+  isLoading$: Observable<boolean>;
   hasPriorSchedule: boolean;
   isSaving: boolean;
   scheduleEditCounter: number = 0;
@@ -35,12 +38,14 @@ export class ScheduleComponent implements OnInit {
     private _trainingService: TrainingService,
     private _helperService: HelperService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
+    this.store.dispatch(new UI.StartLoading());
     const userIdObs$ = this._helperService.getLoggedInUserId().pipe(take(1));
     const myScheduleObs$ = userIdObs$.pipe(
       take(1),
@@ -62,7 +67,7 @@ export class ScheduleComponent implements OnInit {
               this.schedule = schedules[0];
               this.hasPriorSchedule = true;
             }
-            this.isLoading = false;
+            this.store.dispatch(new UI.StopLoading());
           });
       });
   }
