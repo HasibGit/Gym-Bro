@@ -6,7 +6,8 @@ import { HelperService } from '../../shared/services/helper.service';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { SignupFormRawValue } from '../interfaces/sign-up.interface';
 import { AuthService } from '../services/auth.service';
-import * as appReducer from '../../state/app/app.reducer';
+import * as fromRoot from '../../state/app/app.reducer';
+import * as UI from '../../shared/state/ui.actions';
 import { map, Observable } from 'rxjs';
 
 @Component({
@@ -25,15 +26,11 @@ export class SignUpComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private _helperService: HelperService,
-    private store: Store<{ ui: appReducer.State }>
+    private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.pipe(
-      map((state) => {
-        return state.ui.isLoading;
-      })
-    );
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
     this.initSignupForm();
     this.setBirthDateRangeLimit();
   }
@@ -63,7 +60,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signup() {
-    this.store.dispatch({ type: 'START_LOADING' });
+    this.store.dispatch(new UI.StartLoading());
     const formValue: SignupFormRawValue = this.signupForm.getRawValue();
     const userRegistryData: AuthData = {
       email: formValue.Email,
@@ -72,12 +69,12 @@ export class SignUpComponent implements OnInit {
     this.authService
       .registerUser(userRegistryData)
       .then((res) => {
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        this.store.dispatch(new UI.StopLoading());
         this.router.navigate(['auth/login']);
       })
       .catch((error) => {
         this._helperService.openSnackBar(error.message);
-        this.store.dispatch({ type: 'STOP_LOADING' });
+        this.store.dispatch(new UI.StopLoading());
       });
   }
 }

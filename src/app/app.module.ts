@@ -14,7 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
-import { appReducer } from './state/app/app.reducer';
+import { reducers } from './state/app/app.reducer';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { appReducer } from './state/app/app.reducer';
     AngularFireModule.initializeApp(environment.firebase),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forRoot({ ui: appReducer }),
+    StoreModule.forRoot(reducers),
   ],
   providers: [],
   entryComponents: [],
