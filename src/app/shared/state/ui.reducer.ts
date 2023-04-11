@@ -10,7 +10,7 @@ const initialState: State = {
 };
 
 // takes in the state and action to perform on the state
-export function uiReducer(state = initialState, action: Action) {
+export function uiReducer(state = initialState, action: uiActions.UIActions) {
   switch (action.type) {
     case uiActions.START_LOADING:
       return {
