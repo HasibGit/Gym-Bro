@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { HelperService } from '../../shared/services/helper.service';
 import { AuthData } from '../interfaces/auth-data.interface';
 import { SignupFormRawValue } from '../interfaces/sign-up.interface';
 import { AuthService } from '../services/auth.service';
+import * as appReducer from '../../state/app/app.reducer';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,16 +18,22 @@ export class SignUpComponent implements OnInit {
   signupForm: FormGroup;
   maxDate: Date;
   minDate: Date;
-  isLoading = false;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private _helperService: HelperService
+    private _helperService: HelperService,
+    private store: Store<{ ui: appReducer.State }>
   ) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.store.pipe(
+      map((state) => {
+        return state.ui.isLoading;
+      })
+    );
     this.initSignupForm();
     this.setBirthDateRangeLimit();
   }
@@ -54,7 +63,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signup() {
-    this.isLoading = true;
+    this.store.dispatch({ type: 'START_LOADING' });
     const formValue: SignupFormRawValue = this.signupForm.getRawValue();
     const userRegistryData: AuthData = {
       email: formValue.Email,
@@ -63,12 +72,12 @@ export class SignUpComponent implements OnInit {
     this.authService
       .registerUser(userRegistryData)
       .then((res) => {
-        this.isLoading = false;
+        this.store.dispatch({ type: 'STOP_LOADING' });
         this.router.navigate(['auth/login']);
       })
       .catch((error) => {
         this._helperService.openSnackBar(error.message);
-        this.isLoading = false;
+        this.store.dispatch({ type: 'STOP_LOADING' });
       });
   }
 }
