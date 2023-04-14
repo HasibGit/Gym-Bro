@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store/src/models';
 import { Exercise } from '../interfaces/exercise.interface';
 import * as trainingActions from './training.actions';
 import * as fromRoot from '../../state/app/app.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface TrainingState {
   allMuscleGroups: String[];
@@ -51,8 +52,19 @@ export function trainingReducer(
 }
 
 // as easy callback functions for accessing state data fast
-export const getAllMuscleGroups = (state: TrainingState) =>
-  state.allMuscleGroups;
-export const getPastExercises = (state: TrainingState) => state.pastExercieses;
-export const getCurrentExercise = (state: TrainingState) =>
-  state.currentExercise;
+
+export const getTrainingState =
+  createFeatureSelector<TrainingState>('training');
+
+export const getAllMuscleGroups = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.allMuscleGroups
+);
+export const getPastExercises = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.pastExercieses
+);
+export const getCurrentExercise = createSelector(
+  getTrainingState,
+  (state: TrainingState) => state.currentExercise
+);
