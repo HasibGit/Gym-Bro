@@ -15,9 +15,11 @@ import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import * as fromTraining from '../state/training.reducer';
 import * as fromRoot from '../../state/app/app.reducer';
 import * as UI from '../../shared/state/ui.actions';
 import { Store } from '@ngrx/store';
+import { SetAllMuscleGroups } from '../state/training.actions';
 
 @Component({
   selector: 'app-new-training',
@@ -37,17 +39,16 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     private trainingService: TrainingService,
     private fb: FormBuilder,
     public _dialog: MatDialog,
-    private store: Store<fromRoot.State>
+    private store: Store<fromTraining.State>
   ) {
     this.unsubscribeAll = new Subject();
   }
 
   ngOnInit(): void {
-
     this.isLoading$ = this.store.select(fromRoot.getIsLoading);
 
     this.initTrainingForm();
-    
+
     this.store.dispatch(new UI.StartLoading());
 
     this.trainingService
@@ -55,6 +56,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe((res: string[]) => {
         this.muscleGroups = res;
+        this.store.dispatch(new SetAllMuscleGroups(this.muscleGroups));
         this.store.dispatch(new UI.StopLoading());
       });
 

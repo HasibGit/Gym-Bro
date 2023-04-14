@@ -1,12 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Store } from '@ngrx/store';
 import { Observable, Subject, take, map, Subscription, switchMap } from 'rxjs';
 import { Schedule } from '../../gym-schedule/interfaces/schedule.interface';
 import { COLLECTIONS } from '../../shared/constants/collections.const';
 import { HTTP_COMMON_HEADER } from '../../shared/constants/http-options.const';
 import { HelperService } from '../../shared/services/helper.service';
 import { Exercise } from '../interfaces/exercise.interface';
+import { StopTraining } from '../state/training.actions';
+import * as fromTraining from '../state/training.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +24,8 @@ export class TrainingService {
   constructor(
     private _afs: AngularFirestore,
     private _http: HttpClient,
-    private _helperService: HelperService
+    private _helperService: HelperService,
+    private store: Store<fromTraining.TrainingState>
   ) {}
 
   startScheduleWorkout() {
@@ -77,7 +81,8 @@ export class TrainingService {
   }
 
   setCurrentExercise(exercise: Exercise) {
-    this.currentExercise = exercise;
+    this.store.dispatch(new this.setCurrentExercise(exercise));
+    // this.currentExercise = exercise;
   }
 
   getCurrentExercise() {
@@ -97,8 +102,9 @@ export class TrainingService {
             status: 'completed',
           })
             .then((docRef) => {
-              this.currentExercise = null;
-              this.exerciseChanged.next(this.currentExercise);
+              this.store.dispatch(new StopTraining(null));
+              // this.currentExercise = null;
+              // this.exerciseChanged.next(this.currentExercise);
             })
             .catch((error) => {
               this._helperService.openSnackBar('Sorry, something went wrong');
@@ -121,8 +127,9 @@ export class TrainingService {
             status: 'cancelled',
           })
             .then(() => {
-              this.currentExercise = null;
-              this.exerciseChanged.next(this.currentExercise);
+              this.store.dispatch(new StopTraining(null));
+              // this.currentExercise = null;
+              // this.exerciseChanged.next(this.currentExercise);
             })
             .catch((error) => {
               this._helperService.openSnackBar('Sorry, something went wrong');

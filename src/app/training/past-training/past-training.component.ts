@@ -12,6 +12,9 @@ import { Exercise } from '../interfaces/exercise.interface';
 import { TrainingService } from '../services/training.service';
 import { take } from 'rxjs';
 import { HelperService } from '../../shared/services/helper.service';
+import * as fromTraining from '../state/training.reducer';
+import { Store } from '@ngrx/store';
+import { SetPastExercises } from '../state/training.actions';
 
 @Component({
   selector: 'app-past-training',
@@ -35,7 +38,8 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
   constructor(
     private _trainingService: TrainingService,
     private _helperService: HelperService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _store: Store<fromTraining.TrainingState>
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class PastTrainingComponent implements OnInit, AfterViewInit {
           .getPastExercises(userId)
           .pipe(take(1))
           .subscribe((exercises: Exercise[]) => {
+            this._store.dispatch(new SetPastExercises(exercises));
             this.dataSource.data = exercises;
           });
       });
