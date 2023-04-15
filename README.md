@@ -19,3 +19,4 @@ This application has been deployed to the following URL: https://gym-bro-938fe.w
 - Firebase firestore for cloud database
 - Firebase for authentication
 - AngularFire package to work with cloud Firestore
+- For getting exercise data, this free api has been used. https://rapidapi.com/mortimerbrian135/api/exerciseapi3
