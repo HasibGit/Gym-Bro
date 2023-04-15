@@ -1,6 +1,7 @@
 # GymBro
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
+Project Demo: https://www.youtube.com/watch?v=Bq3HGSRJwH8
 
 ## Deployment
 This application has been deployed to the following URL: https://gym-bro-938fe.web.app 
