@@ -1,6 +1,6 @@
 # GymBro
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.7. <br />
 Project Demo: https://www.youtube.com/watch?v=Bq3HGSRJwH8
 
 ## Deployment
@@ -20,4 +20,4 @@ This application has been deployed to the following URL: https://gym-bro-938fe.w
 - Firebase firestore for cloud database
 - Firebase for authentication
 - AngularFire package to work with cloud Firestore
-- For getting exercise data, this free api has been used. https://rapidapi.com/mortimerbrian135/api/exerciseapi3
+- For getting exercise data, this free api has been used provided by RapidApi. <br /> https://rapidapi.com/mortimerbrian135/api/exerciseapi3
