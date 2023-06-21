@@ -141,15 +141,21 @@ export class TrainingService {
     return this._afs.collection(COLLECTIONS.past_exercises).add(exercise);
   }
 
-  pushScheduleDataToDatabase(schedule: Schedule): Promise<any> {
-    return this._afs.collection(COLLECTIONS.schedules).add(schedule);
+  upsertScheduleDataToDatabase(schedule: Schedule): Promise<any> {
+    return this._afs
+      .collection(COLLECTIONS.schedules)
+      .doc(schedule.userId)
+      .set(schedule);
   }
 
   saveSchedule(schedule: Schedule): Observable<any> {
     return this._helperService.getLoggedInUserId().pipe(
       take(1),
       switchMap((userId: string) => {
-        return this.pushScheduleDataToDatabase({ ...schedule, userId: userId });
+        return this.upsertScheduleDataToDatabase({
+          ...schedule,
+          userId: userId,
+        });
       })
     );
   }
@@ -158,16 +164,15 @@ export class TrainingService {
     return this.fetchPastExercises(userId);
   }
 
-  fetchMySchedule(userId: string): Observable<any[]> {
+  fetchMySchedule(userId: string): Observable<Schedule> {
     return this._afs
-      .collection<any>(COLLECTIONS.schedules, (ref) =>
-        ref.where('userId', '==', userId)
-      )
+      .collection<any>(COLLECTIONS.schedules)
+      .doc(userId)
       .valueChanges()
       .pipe(take(1));
   }
 
-  getMySchedule(userId: string) {
+  getMySchedule(userId: string): Observable<Schedule> {
     return this.fetchMySchedule(userId);
   }
 }

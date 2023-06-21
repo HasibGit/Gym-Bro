@@ -35,9 +35,9 @@ export class MyScheduleComponent implements OnInit {
         this._trainingService
           .getMySchedule(userId)
           .pipe(take(1))
-          .subscribe((schedules: Schedule[]) => {
-            if ((schedules[0]?.[this.dayName] as Exercise[]).length > 0) {
-              this.todaysSchedule = schedules[0][this.dayName];
+          .subscribe((schedule: Schedule) => {
+            if (schedule && (schedule[this.dayName] as Exercise[]).length > 0) {
+              this.todaysSchedule = schedule[this.dayName];
             } else {
               this.noWorkoutsScheduled = true;
             }

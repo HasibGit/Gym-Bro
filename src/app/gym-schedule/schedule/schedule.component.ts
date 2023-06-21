@@ -58,9 +58,9 @@ export class ScheduleComponent implements OnInit {
         });
         myScheduleObs$
           .pipe(take(1), shareReplay(1))
-          .subscribe((schedules: Schedule[]) => {
-            if (schedules.length > 0) {
-              this.schedule = schedules[0];
+          .subscribe((schedule: Schedule) => {
+            if (schedule) {
+              this.schedule = schedule;
               this.hasPriorSchedule = true;
             }
             this.isLoading = false;
