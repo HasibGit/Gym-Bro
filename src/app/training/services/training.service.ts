@@ -56,13 +56,12 @@ export class TrainingService {
   }
 
   getExercisesBasedOnMuscleGroup(muscleGroup: string): Observable<Exercise[]> {
-    return this._http.get<Exercise[]>(
-      'https://exerciseapi3.p.rapidapi.com/search/',
-      {
-        ...HTTP_COMMON_HEADER,
-        params: new HttpParams().set('primaryMuscle', muscleGroup),
-      }
-    );
+    return this._afs
+      .collection<any>(COLLECTIONS.exercises, (ref) =>
+        ref.where('PrimaryMuscle', '==', muscleGroup)
+      )
+      .valueChanges()
+      .pipe(take(1));
   }
 
   fetchExercises(): Observable<Exercise[]> {
