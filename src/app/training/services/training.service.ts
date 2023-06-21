@@ -37,11 +37,6 @@ export class TrainingService {
   }
 
   getMuscleGroups(): Observable<{ id: string; name: string }[]> {
-    // return this._http.get<string[]>(
-    //   'https://exerciseapi3.p.rapidapi.com/search/muscles/',
-    //   HTTP_COMMON_HEADER
-    // );
-
     return this._afs
       .collection<any>(COLLECTIONS.muscleGroups)
       .snapshotChanges()
