@@ -42,9 +42,9 @@ export class CurrentTrainingComponent implements OnInit {
           clearInterval(this.timer);
           this._trainingService.completeExercise();
         } else {
-          this.initiateBreakTime();
           this.progress = 0;
           clearInterval(this.timer); // clear outer interval while inner interval is running
+          this.initiateBreakTime();
         }
       }
     }, stepSize);
@@ -66,6 +66,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   pauseTraining() {
     clearInterval(this.timer);
+    clearInterval(this.intervalTimer);
   }
 
   stopTraining() {
@@ -84,7 +85,11 @@ export class CurrentTrainingComponent implements OnInit {
           this.numberOfSetsCompleted
         );
       } else {
-        this.startOrResumeTraining();
+        if (this.intervalOngoing) {
+          this.initiateBreakTime();
+        } else {
+          this.startOrResumeTraining();
+        }
       }
     });
   }
@@ -93,6 +98,10 @@ export class CurrentTrainingComponent implements OnInit {
     config.autoFocus = true;
     config.disableClose = true;
     config.width = '400px';
-    config.data = this.progress;
+    config.data = {
+      progress: this.progress,
+      currentSet: this.numberOfSetsCompleted + 1,
+      intervalOngoing: this.intervalOngoing,
+    };
   }
 }

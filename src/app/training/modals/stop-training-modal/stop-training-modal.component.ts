@@ -7,7 +7,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./stop-training-modal.component.scss'],
 })
 export class StopTrainingModalComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public progress: number) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      progress: number;
+      currentSet: number;
+      intervalOngoing: boolean;
+    }
+  ) {}
 
   ngOnInit(): void {}
 }

@@ -2,7 +2,8 @@
 
 <div mat-dialog-content class="mb-10">
   <p>Would you like to stop the current training?</p>
-  <p>Progress: {{progress}} %</p>
+  <p *ngIf="!data.intervalOngoing">Set: {{data.currentSet}}</p>
+  <p *ngIf="!data.intervalOngoing">Progress: {{data.progress}} %</p>
 </div>
 
 <div mat-dialog-actions>
