@@ -36,11 +36,23 @@ export class TrainingService {
     return this.scheduleWorkoutOngoing;
   }
 
-  getMuscleGroups(): Observable<string[]> {
-    return this._http.get<string[]>(
-      'https://exerciseapi3.p.rapidapi.com/search/muscles/',
-      HTTP_COMMON_HEADER
-    );
+  getMuscleGroups(): Observable<{ id: string; name: string }[]> {
+    // return this._http.get<string[]>(
+    //   'https://exerciseapi3.p.rapidapi.com/search/muscles/',
+    //   HTTP_COMMON_HEADER
+    // );
+
+    return this._afs
+      .collection<any>(COLLECTIONS.muscleGroups)
+      .snapshotChanges()
+      .pipe(
+        take(1),
+        map((docArray: any[]) => {
+          return docArray.map((doc) => {
+            return { id: doc.payload.doc.id, ...doc.payload.doc.data() };
+          });
+        })
+      );
   }
 
   getExercisesBasedOnMuscleGroup(muscleGroup: string): Observable<Exercise[]> {

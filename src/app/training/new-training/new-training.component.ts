@@ -23,7 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class NewTrainingComponent implements OnInit, OnDestroy {
   workouts: Exercise[];
-  muscleGroups: string[];
+  muscleGroups: string[] = [];
   startTrainingForm: FormGroup;
   chosenExercise: Exercise;
   isLoading: boolean;
@@ -44,9 +44,10 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
     this.trainingService
       .getMuscleGroups()
-      .pipe(take(1))
-      .subscribe((res: string[]) => {
-        this.muscleGroups = res;
+      .subscribe((res: { id: string; name: string }[]) => {
+        res.forEach((data) => {
+          this.muscleGroups.push(data.name);
+        });
         this.isLoading = false;
       });
 

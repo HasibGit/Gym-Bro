@@ -23,7 +23,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ScheduleComponent implements OnInit {
   weekDays = WEEKDAYS;
   schedule: Schedule = { ...INITIAL_SCHEDULE };
-  muscleGroups: string[];
+  muscleGroups: string[] = [];
   isLoading: boolean;
   hasPriorSchedule: boolean;
   isSaving: boolean;
@@ -52,9 +52,10 @@ export class ScheduleComponent implements OnInit {
 
     this._trainingService
       .getMuscleGroups()
-      .pipe(take(1))
-      .subscribe((res: string[]) => {
-        this.muscleGroups = res;
+      .subscribe((res: { id: string; name: string }[]) => {
+        res.forEach((data) => {
+          this.muscleGroups.push(data.name);
+        });
         myScheduleObs$
           .pipe(take(1), shareReplay(1))
           .subscribe((schedules: Schedule[]) => {
